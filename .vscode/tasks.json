@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Wait",
+      "type": "shell",
+      "command": "sleep 15",
+      "group": "none",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "new",
+        "close": true
+      }
+    },
+    {
+      "label": "Echo vars",
+      "command": "echo",
+      "args": ["${env:USERNAME}", "workspaceFolder = ${workspaceFolder}"],
+      "type": "shell"
+    }
+  ]
+}
