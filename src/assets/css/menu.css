@@ -1,0 +1,205 @@
+#menu {
+    background-color: #116295;
+    border-bottom: 4px #115B89 solid;
+    height: 85px;
+}
+
+#menu div.content {
+    margin: 0 auto;
+    width: 1000px;
+}
+
+#menu img {
+    float: left;
+    left: -10px;
+    position: relative;
+}
+
+#menu h1.title {
+    color: white;
+    float: left;
+    font-size: 40px;
+    font-weight: normal;
+    left: -10px;
+    position: relative;
+    top: 15px;
+}
+
+#menu h3.subtitle {
+    color: #25BCE9;
+    float: left;
+    font-family: "Trebuchet MS", sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    left: -10px;
+    position: relative;
+    top: 10px;
+    width: 85%;
+}
+
+.submenu {
+    background-color: #cccccc;
+    border: 1px solid #09334d;
+    color: #09334d;
+}
+
+.submenu-item-hover {
+    background-color: #9a9a9a;
+}
+
+.submenu li {
+    padding: 5px;
+}
+
+#menuuserinfo {
+    background-color: #0E4B71;
+    font-family: "Trebuchet MS", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#menuuserinfo div {
+    margin: 0 auto;
+    padding: 0;
+    width: 1000px;
+}
+
+#menuuserinfo div a {
+    border-right: 2px #0B3C5B solid;
+    color: white;
+    cursor: pointer;
+    float: left;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0;
+    padding: 6px 8px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+#menuuserinfo div a:first-child {
+    border-left: 2px #0B3C5B solid;
+}
+
+#menuuserinfo div a:hover {
+    background-color: #09334E;
+}
+
+#menuuserinfo div a.right {
+    border-right: 2px #0B3C5B solid;
+    float: right;
+}
+
+a.left img {
+    left: 2px;
+    position: relative;
+    top: 2px;
+}
+
+span.user, span.client {
+    color: white;
+    float: left;
+    font-size: 12px;
+    font-style: italic;
+    margin-right: 10px;
+    position: relative;
+    text-transform: none !important;
+    top: 4px;
+    vertical-align: middle;
+}
+
+span.client {
+    padding-left: 20px;
+}
+
+#client-choice {
+    background-color: #0E4B71;
+    border: 1px solid white;
+    border-radius: 4px;
+    color: white;
+    float: left;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: normal !important;
+    padding: 0 !important;
+    position: relative;
+    top: 2px;
+    width: 150px;
+}
+
+#client-choice option {
+    position: relative;
+    top: 1px;
+}
+
+span.user img {
+    margin-right: 4px;
+}
+
+#mainmenu {
+    background-image: url(../images/mainmenu.png);
+    background-position: right center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 580px;
+    left: -350px;
+    padding-right: 47px;
+    position: absolute;
+    transition-duration: 0.3s;
+        -moz-transition-duration: 0.3s;
+        -webkit-transition-duration: 0.3s;
+        -o-transition-duration: 0.3s;
+    text-align: right;
+    top: 80px;
+    width: 350px;
+    z-index: 4000;
+}
+
+#mainmenu .menucontent {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 5px double #0E4B71;
+    border-left: none;
+    border-radius: 0 15px 15px 0;
+    cursor: auto;
+    height: 100%;
+    padding: 0 0 30px 0;
+}
+
+#mainmenu .menutitle, #mainmenu .menusubtitle {
+    background-color: #09334E;
+    color: white;
+    cursor: pointer;
+    padding: 4px 8px;
+    z-index: 2000;
+}
+
+.menusubtitle, .menusublinks a {
+    padding-right: 25px !important;
+}
+
+.menusubtitle {
+    background-color: #116295 !important;
+}
+
+.menutitle:first-child{
+    border-radius: 0 8px 0 0;
+}
+
+.menulinks, .menusublinks {
+    display: none;
+}
+
+.menulinks a, .menusublinks a {
+    background-color: #42b7ff;
+    border-bottom: 1px solid #42b7ff;
+    border-top: 1px solid #42b7ff;
+    color: white;
+    display: block;
+    padding: 4px 8px;
+    text-decoration: none;
+}
+
+.menulinks a:hover, .menusublinks a:hover {
+    background-color: white;
+    color: #09334E;
+}
