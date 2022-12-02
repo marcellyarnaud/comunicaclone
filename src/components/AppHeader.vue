@@ -19,9 +19,9 @@
                     <b-dropdown id="dropdown-avatar" class="nav-item dropdown dropdown-menu-right" placement="bottom right">
                         <template #button-content>
                             <div class="d-flex align-items-center nav-link" dropdown-trigger="">
-                                <span class="user-info mr-2 d-none d-md-flex right">
-                                    <span id="infUserName" class="user-name align-content-end">Lucas Martins do Amaral</span>
-                                    <span class="user-job align-content-end">Administrador</span>
+                                <span class="user-info mr-2 d-md-inline-flex right">
+                                    <span id="infUserName" class="user-name">Lucas Martins do Amaral</span>
+                                    <span id="infUserJob" class="user-job">Administrador</span>
                                 </span>
                                 <img alt="Avatar" aria-hidden="true" class="img-avatar" src="../assets/images/user.png">
                             </div>
@@ -59,11 +59,23 @@ export default {
 #dropdown-avatar ul {
     right: 0px !important;
     top: -5px !important;
+    padding-block: 0;
 }
-#dropdown-avatar .btn.btn-secondary.dropdown-toggle::after, .btn.btn-secondary.dropdown-toggle:active::after {
+.btn.btn-secondary.dropdown-toggle::after, .btn.btn-secondary.dropdown-toggle:active::after {
     color: black !important;
 }
-.user-info, .user-info :hover {
-    text-align: right;
+#dropdown-avatar button, #dropdown-avatar button :hover {
+    text-align: right !important;
+}
+.dropdown-menu {
+    padding-bottom: 0;
+    padding-top: 0;
+    line-height: 1.5;
+}
+#infUserJob.user-job, #infUserJob.user-job:hover {
+    font-size: 0.75rem;
+    width: 100% !important;
+    display: block !important;
+    text-align: right !important;
 }
 </style>
