@@ -1,10 +1,11 @@
 <template>
-  <div id="app">
+  <div>
     <HomePage/>
   </div>
 </template>
 
 <script>
+import "../node_modules/fontawesome-free-v6/js/all";
 import HomePage from './components/HomePage.vue';
 
 export default {
@@ -16,12 +17,7 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import './assets/css/vendor/serpro-design-base.css';
+@import './assets/css/app.css';
+@import "../node_modules/fontawesome-free-v6/css/fontawesome.min.css";
 </style>
