@@ -125,7 +125,6 @@
             </main>
         </div>
         <footer class="app-footer">
-
             <span slot-status=""><a class="ng-tns-c0-0"
                     href="http://serprodesign.estaleiro.serpro/showcase/#">ComCom</a></span>
             <span class="ml-auto">
