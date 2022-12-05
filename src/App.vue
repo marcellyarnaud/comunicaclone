@@ -17,7 +17,5 @@ export default {
 </script>
 
 <style>
-@import './assets/css/vendor/serpro-design-base.css';
-@import './assets/css/app.css';
-@import "../node_modules/fontawesome-free-v6/css/fontawesome.min.css";
+
 </style>

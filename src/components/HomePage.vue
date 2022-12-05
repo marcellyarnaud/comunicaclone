@@ -6,24 +6,9 @@
 
         <div class="app-body">
 
-            <div aria-hidden="false" class="sidebar">
-                <div class="sidebar-nav ps" role="nav">
-                    <div id='sv-menu'></div>
-                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
-                        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
-                    </div>
-                    <div class="ps__rail-y" style="top: 0px; right: 0px;">
-                        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
-                    </div>
-                </div>
-
-                <button class="sidebar-minimizer" sdbrandminimizer="" sdsidebarminimizer="" type="button"></button>
-            </div>
-
-
             <main class="main">
                 <div>
-                    <div class="tab-pane" id="tabTemplateAguarde">
+                    <div class="tab-pane" id="tabTemplateAguarde" style="display: none;">
                         <section>
                             <div class="app-loading">
                                 <br /><br />
@@ -37,8 +22,8 @@
                             </div>
                         </section>
                     </div>
-                    <div class="tab-pane" id="tabTemplateLogin" style="display: none;">
 
+                    <div class="tab-pane" id="tabTemplateLogin">
                         <div class="page-auth">
                             <div class="container-fluid">
                                 <div class="row">
@@ -59,55 +44,43 @@
                                                     <p class="font-italic">
                                                         Acesse os sistemas do Serpro usando um único login.
                                                     </p>
-                                                    <form id="frmLogin">
-                                                        <div id="username" class="dynamic-field" data-input-type="cpf"
-                                                            aria-label="CPF" aria-required="true"
-                                                            data-placeholder="Digite aqui o CPF"></div>
-                                                        <div id="frmLogin-password-group" class="form-group"
-                                                            data-input-type="senha" placeholder="Informe sua senha"
-                                                            aria-label="Senha" aria-required="true">
-                                                            <label for="frmLogin-password"
-                                                                class="control-label"><em>*</em>
-                                                                Senha</label>
-                                                            <div class="input-group">
-                                                                <input id="frmLogin-password" name="Senha"
-                                                                    class="form-control" type="password"
-                                                                    data-input-type="senha">
-                                                                <button class="btn btn-secondary px-2"
-                                                                    id="button-addon2" title="mostrar/ocultar senha"
-                                                                    type="button">
-                                                                    <i id="viewPasswd" aria-hidden="true"
-                                                                        class="fas fa-eye"></i>
-                                                                </button>
-                                                            </div>
-                                                            <div id="frmLogin-password-message" class="label"></div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input class="custom-control-input" type="checkbox"
-                                                                    value="" id="lembra-senha">
-                                                                <label class="custom-control-label"
-                                                                    for="lembra-senha">Lembrar senha</label>
-                                                                <a href="auth/esqueci-minha-senha">Esqueceu sua
-                                                                    senha</a>
-                                                            </div>
-                                                        </div>
+
+
+                                                    <b-form id="frmLogin" @submit="onSubmit" @reset="onReset"
+                                                        v-if="show">
+                                                        <b-form-group id="input-group-login" label="CPF:"
+                                                            label-for="inputCPF"
+                                                            description="Identificação do usuário com CPF">
+                                                            <b-form-input id="inputCPF" v-model="form.cpf" type="text"
+                                                                aria-label="CPF" aria-required="true"
+                                                                placeholder="Insira seu CPF" required></b-form-input>
+                                                        </b-form-group>
+                                                        <b-form-group label-for="input-password" label="Senha:">
+                                                            <b-input-group class="mt-3">
+                                                                <b-form-input type="password" id="input-password"
+                                                                    aria-describedby="password-help-block"></b-form-input>
+                                                                <template #append>
+                                                                    <b-button class="btn btn-secondary px-2"
+                                                                        id="button-addon2" title="mostrar/ocultar senha"
+                                                                        type="button">
+                                                                        <i id="viewPasswd" aria-hidden="true"
+                                                                            class="fas fa-eye"></i>
+                                                                    </b-button>
+                                                                </template>
+                                                            </b-input-group>
+                                                            <b-form-text id="password-help-block">
+                                                                Your password must be 8-20 characters long, contain
+                                                                letters and numbers, and must not
+                                                                contain spaces, special characters, or emoji.
+                                                            </b-form-text>
+                                                        </b-form-group>
+
                                                         <p class="mb-5">
-
                                                         </p>
-                                                        <div class="form-group mb-5">
-                                                            <button class="btn btn-primary" id="btn-entrar"
-                                                                type="submit">Entrar</button>
-                                                        </div>
-                                                    </form>
-                                                    <p>
-                                                    <form id="frmCertificado">
-                                                        <button id="btn-certificado" class="certificado-digital">
-                                                            <i aria-hidden="true" class="far fa-address-card mr-1"></i>
-                                                            Acesse com Certificado Digital</button>
-                                                    </form>
-                                                    </p>
 
+                                                        <b-button type="submit" variant="primary">Entrar</b-button>
+                                                        <b-button type="reset" variant="danger">Limpar</b-button>
+                                                    </b-form>
                                                 </div>
                                             </div>
                                         </div>
@@ -124,22 +97,27 @@
                 </div>
             </main>
         </div>
-        <footer class="app-footer">
-            <span slot-status=""><a class="ng-tns-c0-0"
-                    href="http://serprodesign.estaleiro.serpro/showcase/#">ComCom</a></span>
-            <span class="ml-auto">
-                <span slot-version="">Versão <span id="version-number">1.0.0</span></span>
-            </span>
-
-        </footer>
+        <AppFooter></AppFooter>
     </div>
 </template>
 <script>
 import AppHeader from "./AppHeader.vue";
+import AppFooter from "./AppFooter.vue";
+
 export default {
     name: "HomePage",
     components: {
-        AppHeader
+        AppHeader,
+        AppFooter
+    },
+    data() {
+        return {
+            form: {
+                cpf: '',
+                password: ''
+            },
+            show: true
+        }
     },
     methods: {
         pega() {
@@ -156,10 +134,28 @@ export default {
             catch (e) {
                 console.log(e);
             }
+        },
+        onSubmit(event) {
+            event.preventDefault()
+            alert(JSON.stringify(this.form))
+        },
+        onReset(event) {
+            event.preventDefault()
+            // Reset our form values
+            this.form.cpf = ''
+            this.form.password = ''
+            // Trick to reset/clear native browser form validation state
+            this.show = false
+            this.$nextTick(() => {
+                this.show = true
+            })
         }
+
     },
 }
 </script>
 <style>
-
+.app-loading__spinner {
+    top: 50px !important;
+}
 </style>

@@ -5573,8 +5573,8 @@ font-family: 'Font Awesome 5 Brands';
 font-style: normal;
 font-weight: normal;
 font-display: auto;
-src: url('fa-brands-400.03783c5172ee1ad128c5.eot');
-src: url('fa-brands-400.03783c5172ee1ad128c5.eot?#iefix') format("embedded-opentype"), url('fa-brands-400.7559b3774a0625e8ca6c.woff2') format("woff2"), url('fa-brands-400.fe9d62e0d16a333a20e6.woff') format("woff"), url('fa-brands-400.ed2b8bf117160466ba62.ttf') format("truetype"), url('fa-brands-400.073c2f3ce60eaf69cc27.svg#fontawesome') format("svg"); }
+src: url('/node_modules/fontawesome-free-v6/webfonts/fa-brands.eot');
+src: url('/node_modules/fontawesome-free-v6/webfonts/fa-brands.eot?#iefix') format("embedded-opentype"), url('/node_modules/fontawesome-free-v6/webfonts/fa-brands.woff2') format("woff2"), url('/node_modules/fontawesome-free-v6/webfonts/fa-brands-400.woff') format("woff"), url('/node_modules/fontawesome-free-v6/webfonts/fa-brands-400.ttf') format("truetype"), url('/node_modules/fontawesome-free-v6/webfonts/fa-brands-400.svg#fontawesome') format("svg"); }
 .fab {
 font-family: 'Font Awesome 5 Brands'; }
 @font-face {
@@ -5582,8 +5582,8 @@ font-family: 'Font Awesome 5 Free';
 font-style: normal;
 font-weight: 400;
 font-display: auto;
-src: url('fa-regular-400.fc9c63c8224fb341fc93.eot');
-src: url('fa-regular-400.fc9c63c8224fb341fc93.eot?#iefix') format("embedded-opentype"), url('fa-regular-400.e07d9e40b26048d9abe2.woff2') format("woff2"), url('fa-regular-400.e5770f9863963fb57694.woff') format("woff"), url('fa-regular-400.59215032a4397507b80e.ttf') format("truetype"), url('fa-regular-400.8fdea4e89ac405d9f8db.svg#fontawesome') format("svg"); }
+src: url('/node_modules/fontawesome-free-v6/webfonts/fa-regular-400.eot');
+src: url('/node_modules/fontawesome-free-v6/webfonts/fa-regular-400.eot?#iefix') format("embedded-opentype"), url('/node_modules/fontawesome-free-v6/webfonts/fa-regular-400.woff2') format("woff2"), url('/node_modules/fontawesome-free-v6/webfonts/fa-regular-400.e5770f9863963fb57694.woff') format("woff"), url('/node_modules/fontawesome-free-v6/webfonts/fa-regular-400.ttf') format("truetype"), url('/node_modules/fontawesome-free-v6/webfonts/fa-regular-400.svg#fontawesome') format("svg"); }
 .far {
 font-family: 'Font Awesome 5 Free';
 font-weight: 400; }
@@ -5592,8 +5592,8 @@ font-family: 'Font Awesome 5 Free';
 font-style: normal;
 font-weight: 900;
 font-display: auto;
-src: url('fa-solid-900.ef3df98419d143d9617f.eot');
-src: url('fa-solid-900.ef3df98419d143d9617f.eot?#iefix') format("embedded-opentype"), url('fa-solid-900.b5cf8ae26748570d8fb9.woff2') format("woff2"), url('fa-solid-900.4bced7c4c0d61d4f9886.woff') format("woff"), url('fa-solid-900.acf50f59802f20d8b452.ttf') format("truetype"), url('fa-solid-900.b557f56e367e59344ca9.svg#fontawesome') format("svg"); }
+src: url('/node_modules/fontawesome-free-v6/webfonts/fa-solid-900.eot');
+src: url('/node_modules/fontawesome-free-v6/webfonts/fa-solid-900.eot?#iefix') format("embedded-opentype"), url('/node_modules/fontawesome-free-v6/webfonts/fa-solid-900.woff2') format("woff2"), url('/node_modules/fontawesome-free-v6/webfonts/fa-solid-900.woff') format("woff"), url('/node_modules/fontawesome-free-v6/webfonts/fa-solid-900.ttf') format("truetype"), url('/node_modules/fontawesome-free-v6/webfonts/fa-solid-900.svg#fontawesome') format("svg"); }
 .fa,
 .fas {
 font-family: 'Font Awesome 5 Free';
@@ -26614,7 +26614,7 @@ font-size: 1.563rem;
 max-width: 99%; } }
 .bg-registrar {
 background-size: cover;
-background-image: url("/showcase/assets/img/bg-registrar.jpg");
+background-image: url("../../images/bg-registrar.jpg");
 background-position: left top; }
 @media (min-width: 1200px) {
 .bg-registrar {
@@ -26624,7 +26624,7 @@ background-position: left top; }
 font-weight: 300; }
 .bg-certificado {
 background-size: cover;
-background-image: url("/showcase/assets/img/bg-certificado.png");
+background-image: url("../../images/bg-certificado.png");
 background-position: left bottom; }
 @media (min-width: 1200px) {
 .bg-certificado {
@@ -26634,7 +26634,7 @@ background-position: left bottom; }
 font-weight: 300; }
 .bg-login-menu {
 background-size: cover;
-background-image: url("/showcase/assets/img/bg-login-menu.jpg");
+background-image: url("../../images/bg-login-menu.jpg");
 background-position: right bottom; }
 @media (min-width: 1200px) {
 .bg-login-menu {
@@ -26644,7 +26644,7 @@ background-position: right bottom; }
 font-weight: 300; }
 .bg-login-unico {
 background-size: contain;
-background-image: url("/showcase/assets/img/bg-login-unico.jpg");
+background-image: url("../../images/bg-login-unico.jpg");
 background-position: center center; }
 @media (min-width: 1200px) {
 .bg-login-unico {
@@ -26654,7 +26654,7 @@ background-position: center center; }
 font-weight: 300; }
 .bg-login-unico2 {
 background-size: cover;
-background-image: url("/showcase/assets/img/bg-login-unico2.jpg");
+background-image: url("../../images/bg-login-unico2.jpg");
 background-position: center center; }
 @media (min-width: 1200px) {
 .bg-login-unico2 {
@@ -26664,7 +26664,7 @@ background-position: center center; }
 font-weight: 300; }
 .bg-neoid {
 background-size: cover;
-background-image: url("/showcase/assets/img/bg-neoid.jpg");
+background-image: url("../../images/bg-neoid.jpg");
 background-position: center center; }
 @media (min-width: 1200px) {
 .bg-neoid {
@@ -26674,7 +26674,7 @@ background-position: center center; }
 font-weight: 300; }
 .bg-redefinir-senha {
 background-size: contain;
-background-image: url("/showcase/assets/img/bg-redefinir-senha.jpg");
+background-image: url("../../images/bg-redefinir-senha.jpg");
 background-position: left bottom; }
 @media (min-width: 1200px) {
 .bg-redefinir-senha {
@@ -26684,7 +26684,7 @@ background-position: left bottom; }
 font-weight: 300; }
 .bg-trocar-senha {
 background-size: contain;
-background-image: url("/showcase/assets/img/bg-trocar-senha.jpg");
+background-image: url("../../images/bg-trocar-senha.jpg");
 background-position: left top; }
 @media (min-width: 1200px) {
 .bg-trocar-senha {
@@ -26694,7 +26694,7 @@ background-position: left top; }
 font-weight: 300; }
 .bg-trocar-senha2 {
 background-size: auto;
-background-image: url("/showcase/assets/img/bg-trocar-senha2.jpg");
+background-image: url("../../images/bg-trocar-senha2.jpg");
 background-position: calc(0% + 125%) 50%; }
 @media (min-width: 1200px) {
 .bg-trocar-senha2 {

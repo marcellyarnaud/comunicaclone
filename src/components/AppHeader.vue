@@ -1,25 +1,78 @@
 <template>
     <div>
         <div>
-            <b-button v-b-toggle.sidebar-no-header id="menu-button-lg" class="navbar-toggler d-md-down-none">
+            <b-button v-b-toggle.sidebar-no-header id="menu-button-lg" class="navbar-toggler d-md-down-none border-0">
                 <span class="navbar-toggler-icon"></span>
             </b-button>
             <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
                 <template #default="{ hide }">
                     <div class="p-3">
-                        <h4 id="sidebar-no-header-title">Custom header sidebar</h4>
-                        <p>
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                        </p>
                         <nav class="mb-3">
                             <b-nav vertical>
-                                <b-nav-item active @click="hide">Active</b-nav-item>
-                                <b-nav-item href="#link-1" @click="hide">Link</b-nav-item>
-                                <b-nav-item href="#link-2" @click="hide">Another Link</b-nav-item>
+                                <b-navbar toggleable type="light">
+                                    <b-navbar-brand class="my-nav-brand" href="#">Administração</b-navbar-brand>
+                                    <b-navbar-toggle target="navbar-toggle-administracao">
+                                        <template #default="{ expanded }">
+                                            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+                                            <b-icon v-else icon="chevron-bar-down"></b-icon>
+                                        </template>
+                                    </b-navbar-toggle>
+                                    <b-collapse id="navbar-toggle-administracao" is-nav>
+                                        <b-navbar-nav class="d-flex flex-column align-items-start">
+                                            <b-nav-item class="subitem">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <i class="nav-icon fa fa-paper-plane"></i>
+                                                    </div>
+                                                    <div class="col-auto" style="text-align: left;">
+                                                        Logs da Aplicação
+                                                    </div>
+                                                </div>
+                                            </b-nav-item>
+                                            <b-nav-item class="subitem">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <i class="nav-icon fa fa-user"></i>
+                                                    </div>
+                                                    <div class="col-auto" style="text-align: left;">
+                                                        Perfis Usuários
+                                                    </div>
+                                                </div>
+                                            </b-nav-item>
+                                        </b-navbar-nav>
+                                    </b-collapse>
+                                </b-navbar>
+
+                                <b-navbar toggleable type="light">
+                                    <b-navbar-brand class="my-nav-brand" href="#">Gerenciar</b-navbar-brand>
+                                    <b-navbar-toggle target="navbar-toggle-gerenciar">
+                                        <template #default="{ expanded }">
+                                            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+                                            <b-icon v-else icon="chevron-bar-down"></b-icon>
+                                        </template>
+                                    </b-navbar-toggle>
+                                    <b-collapse id="navbar-toggle-gerenciar" is-nav>
+                                        <b-navbar-nav class="d-flex flex-column align-items-start">
+                                            <b-nav-item class="subitem">
+                                                <div class="row">
+                                                    <div class="col-2">
+                                                        <i class="nav-icon fa fa-mail-bulk"></i>
+                                                    </div>
+                                                    <div class="col-auto" style="text-align: left;">
+                                                        Comunicações
+                                                    </div>
+                                                </div>
+                                            </b-nav-item>
+                                        </b-navbar-nav>
+                                    </b-collapse>
+                                </b-navbar>
                             </b-nav>
                         </nav>
-                        <b-button variant="primary" block @click="hide">Close Sidebar</b-button>
+                    </div>
+                </template>
+                <template #footer="{ hide }">
+                    <div class="d-flex text-light flex-row-reverse px-3 py-2">
+                        <b-button size="sm" @click="hide">Fechar</b-button>
                     </div>
                 </template>
             </b-sidebar>
@@ -55,13 +108,21 @@
     </div>
 </template>
 <script>
-import { BDropdown, BDropdownItem, BButton } from 'bootstrap-vue'
+import {
+    BDropdown, BDropdownItem, BButton, BCollapse, BNav,
+    BNavbar, BNavbarBrand, BNavbarToggle,
+    BNavbarNav,
+} from 'bootstrap-vue'
 export default {
     name: "AppHeader",
     components: {
         BDropdown,
         BDropdownItem,
-        BButton
+        BButton,
+        BCollapse, BNav,
+        BNavbar, BNavbarBrand,
+        BNavbarToggle,
+        BNavbarNav
     },
 }
 </script>
@@ -104,5 +165,34 @@ export default {
     width: 100% !important;
     display: block !important;
     text-align: right !important;
+}
+
+#sidebar-no-header {
+    top: 55px;
+    height: -webkit-fill-available;
+}
+
+.b-sidebar-body {
+    background-color: azure;
+}
+
+.b-sidebar-footer {
+    background-color: #00348c;
+}
+
+.my-nav-brand {
+    justify-content: left !important;
+    font-weight: bold;
+}
+
+.subitem {
+    justify-content: left !important;
+    padding-left: 10px;
+    font-weight: normal;
+}
+
+.subitem :hover {
+    justify-content: left !important;
+    font-weight: bolder;
 }
 </style>
