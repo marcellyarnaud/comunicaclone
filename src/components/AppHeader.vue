@@ -91,14 +91,14 @@
                         <template #button-content>
                             <div class="d-flex align-items-center nav-link" dropdown-trigger="">
                                 <span class="user-info mr-2 d-md-inline-flex right">
-                                    <span id="infUserName" class="user-name">Lucas Martins do Amaral</span>
-                                    <span id="infUserJob" class="user-job">Administrador</span>
+                                    <span id="infUserName" class="user-name">{{ nome }}</span>
+                                    <span id="infUserJob" class="user-job">{{ perfil }}</span>
                                 </span>
                                 <img alt="Avatar" aria-hidden="true" class="img-avatar" src="../assets/images/user.png">
                             </div>
                         </template>
                         <b-dropdown-item class="left"> <i class="nav-icon fa fa-user"></i>
-                            <span id="infUserCPF">000.000.000-00</span></b-dropdown-item>
+                            <span id="infUserCPF"> {{ cpf }}</span></b-dropdown-item>
                         <b-dropdown-item class="left"><i class="nav-icon fa fa-power-off"></i>
                             <span id="sair"><strong> Sair</strong></span></b-dropdown-item>
                     </b-dropdown>
@@ -115,6 +115,11 @@ import {
 } from 'bootstrap-vue'
 export default {
     name: "AppHeader",
+    props:  {
+        nome: String,
+        perfil: String,
+        cpf: String
+    },
     components: {
         BDropdown,
         BDropdownItem,

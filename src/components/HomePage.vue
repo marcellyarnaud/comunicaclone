@@ -1,6 +1,8 @@
 <template>
     <div>
-        <AppHeader id="header" class="app-header navbar"></AppHeader>
+        <AppHeader id="header" class="app-header navbar" 
+            nome="Lucas Martins do Amaral" perfil="Administrador" cpf="758.149.436-53">
+        </AppHeader>
 
         <!-- div id="bs-modal-plugin"></div -->
 
@@ -33,7 +35,7 @@
                                         <div class="app flex-row">
                                             <div class="container py-4">
                                                 <div class="text-right mb-5">
-                                                    <img class="logoSerpro" src="../assets/images/logo-serpro.png">
+                                                    <img class="logoSerpro" src="../assets/images/logo-serpro-2021.jpg">
                                                 </div>
                                                 <div class="mx-5">
                                                     <div class="mt-3 mb-4">
@@ -69,9 +71,8 @@
                                                                 </template>
                                                             </b-input-group>
                                                             <b-form-text id="password-help-block">
-                                                                Your password must be 8-20 characters long, contain
-                                                                letters and numbers, and must not
-                                                                contain spaces, special characters, or emoji.
+                                                                Não divulgue sua senha para ninguém. Consulte a norma
+                                                                específica.
                                                             </b-form-text>
                                                         </b-form-group>
 
