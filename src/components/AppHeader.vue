@@ -1,7 +1,8 @@
 <template>
     <div>
         <div>
-            <b-button v-b-toggle.sidebar-no-header id="menu-button-lg" class="navbar-toggler d-md-down-none border-0">
+            <b-button v-b-toggle.sidebar-no-header id="menu-button-lg" 
+                class="navbar-toggler d-md-down-none border-0" :disabled=!isLoggedIn>
                 <span class="navbar-toggler-icon"></span>
             </b-button>
             <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
@@ -114,10 +115,13 @@ export default {
     props:  {
         nome: String,
         perfil: String,
-        cpf: String
+        cpf: String,
+        isLoggedIn: Boolean
     },
     components: {
     },
+    computed:   {
+    }
 }
 </script>
 <style>

@@ -20,61 +20,6 @@ export var dateFormat = {
         }
 };
 
-export var customRedrawDynamicFields = null;
-
-export function habilitaAba(aba, habilitar, ajuda) {
-	var objeto = $('#' + aba);
-	var texto = objeto.attr('title');
-	var nome = objeto.attr('accesskey');
-	var strAjuda = ajuda ? '&nbsp;<a id="help_' + aba + '" class="fast-help" data-help="' + ajuda + '"></a>' : '';
-
-    if (habilitar)
-    	html = '<a id="lnk-' + nome + '" href="#' + nome + '" aria-controls="' + nome + '" role="tab" data-toggle="tab">' + texto + '</a>' + strAjuda;
-    else
-    	html = texto;
-	objeto.html(html);
-	objeto.attr('aria-enabled', habilitar ? 'true':'false');
-	/*
-	if (habilitar) {
-		$('#lnk' + nome).unbind('shown.bs.tab');
-		$('#lnk' + nome).on('shown.bs.tab', export function (e) {
-			var subAba = $(this).attr('aria-controls');
-			subAbaAtual = subAba;
-			subAbaFocus(subAba);
-		});
-	}
-	*/
-}
-
-export function btnDataClick() {
-	var controle = $(this).attr('aria-controls');
-	var id = $(this).attr('id');
-	alert(id + ', ' + controle);
-}
-
-export function setTitle(idTitulo, titulo, subTitulo, loading) {
-	var dynamicTitle = $('#' + idTitulo);
-	var icon = dynamicTitle.attr('aria-icon');
-
-	var iconClass = icon;
-	if (icon) {
-        var fields = icon.split('-');
-		if (fields[0] == 'glyphicon') {
-			iconClass = 'glyphicon ' + iconClass;
-        } else if  (fields[0] == 'fa') {
-			iconClass = 'fa ' + iconClass;
-        }
-	} else {
-		iconClass = 'ico-pencil';
-	}
-
-    var strLoading = loading?'&nbsp;<span class="loading"></span>':'';
-    var spanStyle = loading? ' style="display:flex"' : '';
-	var html = '<div class="bubble ' + iconClass + '"></div><div class="h4">' + titulo + '</div>';
-	if (subTitulo) html += '<div class="h6 mt-2"' + spanStyle + '>' + subTitulo + strLoading + '</div>';
-	dynamicTitle.html(html);
-}
-
 // Validadores
 export function validaCPF(campo) {
 	var Ok = true;
@@ -115,7 +60,7 @@ export function validaCPF(campo) {
 
 export function validaCNPJ(campo) {
 	var Ok = true;
-	var texto = campo.cleanVal().trim();
+	var texto = new String(campo).trim();
 
 	if (texto) {
 		var cnpj = texto.replace(/[^0-9\s]/g, "");
@@ -140,7 +85,7 @@ export function validaCNPJ(campo) {
 		    digitos = cnpj.substring(tamanho);
 		    soma = 0;
 		    pos = tamanho - 7;
-		    for (i = tamanho; i >= 1; i--) {
+		    for (let i = tamanho; i >= 1; i--) {
 		      soma += numeros.charAt(tamanho - i) * pos--;
 		      if (pos < 2)
 		            pos = 9;
@@ -153,7 +98,7 @@ export function validaCNPJ(campo) {
 		    numeros = cnpj.substring(0,tamanho);
 		    soma = 0;
 		    pos = tamanho - 7;
-		    for (i = tamanho; i >= 1; i--) {
+		    for (let i = tamanho; i >= 1; i--) {
 		      soma += numeros.charAt(tamanho - i) * pos--;
 		      if (pos < 2)
 		            pos = 9;
@@ -171,9 +116,7 @@ export function validaCNPJ(campo) {
 
 export function validaTelefone(campo) {
 	var Ok = true;
-	var input = getInput(campo);
-	var texto = input.val().trim();
-	var nomeCampo = input.attr('name');
+	var texto = new String(campo).trim();
 
 	if (texto) {
 		var telefone = texto.replace(/[^0-9]/g, "");
@@ -181,13 +124,8 @@ export function validaTelefone(campo) {
 		if (!((telefone.length == 10) || (telefone.length == 11)))
 			Ok = false;
 
-		if (!Ok) {
-			notificaErro(campo, "ER0001", nomeCampo);
-		}
 	} else {
-		//Caracteres especiais largados
-		texto = input.trim();
-		if (texto) notificaErro(campo, "ER0001", nomeCampo);
+		Ok = false;
 	}
 
     return Ok;
@@ -195,17 +133,11 @@ export function validaTelefone(campo) {
 
 export function validaEmail(campo) {
 	var Ok = true;
-	var input = getInput(campo);
-	var texto = input.val().trim();
-	var nomeCampo = input.attr('name');
+	var texto = new String(campo).trim();
 
 	if (texto) {
 	    var teste = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
 	    Ok = teste.test(texto);
-
-		if (!Ok) {
-			notificaErro(campo, "ER0001", nomeCampo);
-		}
 	}
 	return Ok;
 }

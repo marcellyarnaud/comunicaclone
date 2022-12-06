@@ -1,7 +1,7 @@
 <template>
     <div>
         <AppHeader id="header" class="app-header navbar" nome="Lucas Martins do Amaral" perfil="Administrador"
-            cpf="758.149.436-53">
+            cpf="758.149.436-53" :isLoggedIn=isLoggedIn>
         </AppHeader>
 
         <!-- div id="bs-modal-plugin"></div -->
@@ -52,7 +52,7 @@
                                                         v-if="show">
                                                         <b-form-group id="input-group-login" label="CPF:"
                                                             label-for="inputCPF">
-                                                            <b-form-input id="inputCPF" v-model="form.cpf" type="text"
+                                                            <b-form-input id="inputCPF" v-model="form.username" type="text"
                                                                 aria-label="CPF" aria-required="true"
                                                                 placeholder="Insira seu CPF" required
                                                                 :state="isValidCPF" trim
@@ -117,6 +117,7 @@ import AppFooter from "./AppFooter.vue";
 
 import axios from "axios";
 import * as utils from "./utils/field-formatters.js";
+import * as sso from "./utils/sso.js";
 
 export default {
     name: "HomePage",
@@ -127,7 +128,7 @@ export default {
     data() {
         return {
             form: {
-                cpf: "",
+                username: "",
                 password: ""
             },
             passwordFieldType: "password",
@@ -136,8 +137,11 @@ export default {
     },
     computed: {
         isValidCPF() {
-            return (this && this.form && this.form.cpf) ? utils.validaCPF(this.form.cpf) : false;
+            return (this && this.form && this.form.username) ? utils.validaCPF(this.form.username) : false;
         },
+        isLoggedIn()    {
+            return this.isValidCPF;
+        }
     },
     methods: {
         mostrarOcultarSenha() {
@@ -175,19 +179,20 @@ export default {
             }
         },
         onSubmit(event) {
-            event.preventDefault()
-            alert(JSON.stringify(this.form))
+            event.preventDefault();
+            //alert(JSON.stringify(this.form));
+            console.log(sso.login(this.form.username, this.form.password));
         },
         onReset(event) {
-            event.preventDefault()
+            event.preventDefault();
             // Reset our form values
-            this.form.cpf = ''
-            this.form.password = ''
+            this.form.username = '';
+            this.form.password = '';
             // Trick to reset/clear native browser form validation state
-            this.show = false
+            this.show = false;
             this.$nextTick(() => {
-                this.show = true
-            })
+                this.show = true;
+            });
         }
     },
 }
