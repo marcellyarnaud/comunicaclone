@@ -1,7 +1,7 @@
 <template>
     <div>
-        <AppHeader id="header" class="app-header navbar" 
-            nome="Lucas Martins do Amaral" perfil="Administrador" cpf="758.149.436-53">
+        <AppHeader id="header" class="app-header navbar" nome="Lucas Martins do Amaral" perfil="Administrador"
+            cpf="758.149.436-53">
         </AppHeader>
 
         <!-- div id="bs-modal-plugin"></div -->
@@ -51,20 +51,30 @@
                                                     <b-form id="frmLogin" @submit="onSubmit" @reset="onReset"
                                                         v-if="show">
                                                         <b-form-group id="input-group-login" label="CPF:"
-                                                            label-for="inputCPF"
-                                                            description="Identificação do usuário com CPF">
+                                                            label-for="inputCPF">
                                                             <b-form-input id="inputCPF" v-model="form.cpf" type="text"
                                                                 aria-label="CPF" aria-required="true"
-                                                                placeholder="Insira seu CPF" required></b-form-input>
+                                                                placeholder="Insira seu CPF" required
+                                                                :state="isValidCPF" trim
+                                                                aria-describedby="input-cpf-live-help input-cpf-live-feedback">
+                                                            </b-form-input>
+                                                            <b-form-invalid-feedback id="input-cpf-live-feedback">
+                                                                Digite CPF válido (somente dígitos, máximo 11 dígitos)
+                                                            </b-form-invalid-feedback>
+                                                            <b-form-text id="input-cpf-live-help">
+                                                                Identificação do usuário com CPF
+                                                            </b-form-text>
                                                         </b-form-group>
                                                         <b-form-group label-for="input-password" label="Senha:">
                                                             <b-input-group class="mt-3">
-                                                                <b-form-input type="password" id="input-password"
-                                                                    aria-describedby="password-help-block"></b-form-input>
+                                                                <b-form-input :type="passwordFieldType"
+                                                                    id="input-password"
+                                                                    aria-describedby="password-help-block"
+                                                                    v-model="form.password"></b-form-input>
                                                                 <template #append>
                                                                     <b-button class="btn btn-secondary px-2"
                                                                         id="button-addon2" title="mostrar/ocultar senha"
-                                                                        type="button">
+                                                                        type="button" @click="mostrarOcultarSenha()">
                                                                         <i id="viewPasswd" aria-hidden="true"
                                                                             class="fas fa-eye"></i>
                                                                     </b-button>
@@ -105,6 +115,9 @@
 import AppHeader from "./AppHeader.vue";
 import AppFooter from "./AppFooter.vue";
 
+import axios from "axios";
+import * as utils from "./utils/field-formatters.js";
+
 export default {
     name: "HomePage",
     components: {
@@ -114,15 +127,39 @@ export default {
     data() {
         return {
             form: {
-                cpf: '',
-                password: ''
+                cpf: "",
+                password: ""
             },
+            passwordFieldType: "password",
             show: true
         }
     },
+    computed: {
+        isValidCPF() {
+            return (this && this.form && this.form.cpf) ? utils.validaCPF(this.form.cpf) : false;
+        },
+    },
     methods: {
+        mostrarOcultarSenha() {
+            this.passwordFieldType = (this.passwordFieldType === "password") ? "text" : "password";
+        },
         pega() {
             try {
+                axios(
+                    {
+                        method: 'put',
+                        url: 'http://localhost:8080/ComCom/diope/comcom/api/comunicacao/62e3eee94c012dd283455d70/true',
+                        body: 'Gostei demais!. Seria muito bom receber mais comunicações deste tipo.',
+                        headers: new Headers({ "content-type": "application/json" })
+                    }
+                ).then((response) => {
+                    console.log(response);
+                }
+                ).catch((error) => {
+                    console.log(error);
+                });
+
+                /*
                 fetch("http://localhost:8080/ComCom/diope/comcom/api/comunicacao/62e3eee94c012dd283455d70/true", {
                     method: "PUT",
                     body: "Gostei demais!. Seria muito bom receber mais comunicações deste tipo.",
@@ -131,6 +168,7 @@ export default {
                     console.log(e);
                     return "Catch: " + e;
                 });
+                */
             }
             catch (e) {
                 console.log(e);
@@ -151,12 +189,20 @@ export default {
                 this.show = true
             })
         }
-
     },
 }
 </script>
 <style>
 .app-loading__spinner {
     top: 50px !important;
+}
+
+.was-validated .form-control:invalid~.invalid-feedback,
+.form-control.is-invalid~.invalid-feedback {
+    flex-direction: row !important;
+}
+
+.form-control.is-valid~.invalid-feedback {
+    display: none;
 }
 </style>

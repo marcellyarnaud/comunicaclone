@@ -108,11 +108,7 @@
     </div>
 </template>
 <script>
-import {
-    BDropdown, BDropdownItem, BButton, BCollapse, BNav,
-    BNavbar, BNavbarBrand, BNavbarToggle,
-    BNavbarNav,
-} from 'bootstrap-vue'
+
 export default {
     name: "AppHeader",
     props:  {
@@ -121,13 +117,6 @@ export default {
         cpf: String
     },
     components: {
-        BDropdown,
-        BDropdownItem,
-        BButton,
-        BCollapse, BNav,
-        BNavbar, BNavbarBrand,
-        BNavbarToggle,
-        BNavbarNav
     },
 }
 </script>
