@@ -88,7 +88,7 @@
             <div class="ng-tns-c0-0 nav navbar-nav">
                 <div class="usermenu">
                     <b-dropdown id="dropdown-avatar" class="nav-item dropdown dropdown-menu-right"
-                        placement="bottom right">
+                        placement="bottom right" :disabled="cpf === ''">
                         <template #button-content>
                             <div class="d-flex align-items-center nav-link" dropdown-trigger="">
                                 <span class="user-info mr-2 d-md-inline-flex right">

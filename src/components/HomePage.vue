@@ -1,7 +1,7 @@
 <template>
     <div>
-        <AppHeader id="header" class="app-header navbar" nome="Lucas Martins do Amaral" perfil="Administrador"
-            cpf="758.149.436-53" :isLoggedIn=isLoggedIn>
+        <AppHeader id="header" class="app-header navbar" :nome="store.username" :perfil="store.perfil"
+            :cpf="store.cpf" :isLoggedIn=isLoggedIn>
         </AppHeader>
 
         <!-- div id="bs-modal-plugin"></div -->
@@ -26,6 +26,19 @@
                     </div>
 
                     <div class="tab-pane" id="tabTemplateLogin">
+                        <b-modal ref="modal-erro-certificado" title="Erro de certificado" hideFooter>
+                            <p>Certificado não cadastrado.<br/>
+                                Clique no botão <b>Aceitar Certificado</b> abaixo
+                                para cadastrar e, em seguida, tente logar novamente. 
+                                <br/>
+                                <br/>
+                                Se o erro persistir, tente logar com seu CPF e Senha ou utilize outro navegador (Firefox
+                                ou Internet Explorer).
+                            </p>
+                            <b-button variant="outline-primary"
+                                href="https://sso.supop.serpro/cadastro_certificado" target="_blank">Aceitar Certificado</b-button>
+                            <b-button class="mt-3" block @click="$bvModal.hide('modal-erro-certificado')">Fechar</b-button>
+                        </b-modal>
                         <div class="page-auth">
                             <div class="container-fluid">
                                 <div class="row">
@@ -52,8 +65,8 @@
                                                         v-if="show">
                                                         <b-form-group id="input-group-login" label="CPF:"
                                                             label-for="inputCPF">
-                                                            <b-form-input id="inputCPF" v-model="form.username" type="text"
-                                                                aria-label="CPF" aria-required="true"
+                                                            <b-form-input id="inputCPF" v-model="form.username"
+                                                                type="text" aria-label="CPF" aria-required="true"
                                                                 placeholder="Insira seu CPF" required
                                                                 :state="isValidCPF" trim
                                                                 aria-describedby="input-cpf-live-help input-cpf-live-feedback">
@@ -116,8 +129,9 @@ import AppHeader from "./AppHeader.vue";
 import AppFooter from "./AppFooter.vue";
 
 import axios from "axios";
-import * as utils from "./utils/field-formatters.js";
-import * as sso from "./utils/sso.js";
+import * as utils from "../utils/field-formatters.js";
+import * as sso from "../utils/sso.js";
+import { userSession } from "../stores/userSession.js";
 
 export default {
     name: "HomePage",
@@ -132,15 +146,21 @@ export default {
                 password: ""
             },
             passwordFieldType: "password",
-            show: true
+            show: true,
+            escondeModalErroCertificado: false,
+            store: userSession()
         }
     },
     computed: {
         isValidCPF() {
             return (this && this.form && this.form.username) ? utils.validaCPF(this.form.username) : false;
         },
-        isLoggedIn()    {
+        isLoggedIn() {
             return this.isValidCPF;
+        },
+        username()  {
+            console.log(JSON.stringify(this.store));
+            return 'sem store';
         }
     },
     methods: {
@@ -180,8 +200,20 @@ export default {
         },
         onSubmit(event) {
             event.preventDefault();
-            //alert(JSON.stringify(this.form));
-            console.log(sso.login(this.form.username, this.form.password));
+            sso.login(this.form.username, this.form.password)
+                .then((response) => {
+                    if( response.status == 200 )  {
+                        this.store.token = response.data.token;
+                        this.store.user = response.data.user;
+                        this.store.perfil = 'Administrador';
+                        console.log(JSON.stringify(this.store, null, "\t"));
+                    }
+                }).catch((error) => {
+                    console.log("Erro durante login: " + error.code);
+                    if (error.code == "ERR_NETWORK") {
+                        this.$refs['modal-erro-certificado'].show();
+                    }
+                });
         },
         onReset(event) {
             event.preventDefault();
