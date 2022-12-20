@@ -474,6 +474,21 @@ export function formataCNPJ(valor) {
 	else
 		return null;
 }
+export function formataCPF(valor) {
+	if (valor)
+		// \* = prevendo cpf obscurecido
+		return valor.replace(/^(\d{3}|\*{3})(\d{3}|\*{3})(\d{3}|\*{3})(\d{2}|\*{2}).*/, '$1.$2.$3-$4');
+	else
+		return null;
+}
+
+export function formataCPFMascarado(valor) {
+	if (valor)
+		// \* = prevendo cpf obscurecido
+		return valor.replace(/^(\d{3}|\*{3})(\d{3}|\*{3})(\d{3}|\*{3})(\d{2}|\*{2}).*/, '$1.***.***-**');
+	else
+		return null;
+}
 
 export function formataMatricula(valor) {
 	var num = zerosAEsquerda(valor, 8)

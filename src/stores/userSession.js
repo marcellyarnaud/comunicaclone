@@ -20,6 +20,7 @@ export const userSession = defineStore("userSession", {
   getters: {
     username: (state) => state.user.nome,
     cpf: (state) => state.user.cpf,
-    chave: (state) => state.token.string
+    chave: (state) => state.token.string,
+    isLoggedIn: (state) => state.token.string.length > 10,
   }
 });
