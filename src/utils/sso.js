@@ -8,19 +8,26 @@ function axiosInstance() {
 
     return instance;
 }
+
 export async function login(username, password) {
-    return await axiosInstance().post(baseURL,
+    return await axiosInstance().post(
+        baseURL,
         {
             username: username,
             password: password
-        });
+        }
+    );
 }
 
 export async function logout(token) {
-    return await axios.delete(baseURL + "/" + token);
+    return await axiosInstance().delete(
+        baseURL + "/" + token
+    );
 }
 
 export async function isLoggedIn(token) {
-    return await axios.get(baseURL + "?token=" + token);
+    return await axiosInstance().get(
+        baseURL + "?token=" + token
+    );
 }
 

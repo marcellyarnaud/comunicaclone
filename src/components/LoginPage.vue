@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="tab-pane" id="tabTemplateLogin">
-                    <b-modal id="modal-erro-certificado" title="Erro de certificado" hideFooter>
+                    <b-modal id="modal-erro-certificado" ref="modal-erro-certificado" title="Erro de certificado" hideFooter>
                         <p>Certificado não cadastrado.<br />
                             Clique no botão <b>Aceitar Certificado</b> abaixo
                             para cadastrar e, em seguida, tente logar novamente.
@@ -103,21 +103,15 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="tab-pane" id="tabTemplateConteudo" style="display: none;">
-                </div>
-                <div class="tab-pane" id="tabTemplateHidden" style="display: none;">
                 </div>
             </div>
         </main>
     </div>
 </template>
 <script>
-import axios from "axios";
 import * as utils from "../utils/field-formatters.js";
 import * as sso from "../utils/sso.js";
-import { userSession } from "../stores/userSession.js";
+import { userStore } from "../stores/userStore.js";
 
 export default {
     name: "LoginPage",
@@ -130,7 +124,7 @@ export default {
             passwordFieldType: "password",
             show: true,
             escondeModalErroCertificado: false,
-            store: userSession()
+            store: userStore()
         }
     },
     computed: {
@@ -142,7 +136,7 @@ export default {
         },
         username() {
             console.log(JSON.stringify(this.store));
-            return 'sem store';
+            return this.store.username;
         }
     },
     methods: {
@@ -151,37 +145,6 @@ export default {
         },
         mostrarOcultarSenha() {
             this.passwordFieldType = (this.passwordFieldType === "password") ? "text" : "password";
-        },
-        pega() {
-            try {
-                axios(
-                    {
-                        method: 'put',
-                        url: 'http://localhost:8080/ComCom/diope/comcom/api/comunicacao/62e3eee94c012dd283455d70/true',
-                        body: 'Gostei demais!. Seria muito bom receber mais comunicações deste tipo.',
-                        headers: new Headers({ "content-type": "application/json" })
-                    }
-                ).then((response) => {
-                    console.log(response);
-                }
-                ).catch((error) => {
-                    console.log(error);
-                });
-
-                /*
-                fetch("http://localhost:8080/ComCom/diope/comcom/api/comunicacao/62e3eee94c012dd283455d70/true", {
-                    method: "PUT",
-                    body: "Gostei demais!. Seria muito bom receber mais comunicações deste tipo.",
-                    headers: new Headers({ "content-type": "application/json" }),
-                }).then(data => { return data; }).catch(e => {
-                    console.log(e);
-                    return "Catch: " + e;
-                });
-                */
-            }
-            catch (e) {
-                console.log(e);
-            }
         },
         onSubmit(event) {
             console.log('OnSubmit: ' + this.form.username);

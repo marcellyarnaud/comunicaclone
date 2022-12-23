@@ -13,7 +13,7 @@
 import AppHeader from "./AppHeader.vue";
 import AppFooter from "./AppFooter.vue";
 import LoginPage from "./LoginPage.vue";
-import { userSession } from "../stores/userSession.js";
+import { userStore } from "../stores/userStore.js";
 
 export default {
     name: "HomePage",
@@ -24,7 +24,7 @@ export default {
     },
     data() {
         return {
-            store: userSession(),
+            store: userStore(),
         }
     },
     computed: {
