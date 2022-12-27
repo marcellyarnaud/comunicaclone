@@ -1,4 +1,9 @@
 import { defineStore } from "pinia";
+import { NotLoggedInError } from "../errors/NotLoggedInError";
+import Comunicacao from "../rest/comunicacao";
+import { ERROR, notifyMessage, notifyNotLoggedIn } from "../mixins/notificationMessages";
+
+const comunicacao = new Comunicacao();
 
 export const comunicacoesStore = defineStore("comunicacoesStore", {
   state: () => {
@@ -39,25 +44,45 @@ export const comunicacoesStore = defineStore("comunicacoesStore", {
     isEmpty: (state) => state.comunicacoes.isEmpty,
     listaComunicacoes: (state) => state.comunicacoes
   },
-  methods: {
-    add(json) {
-      this.state.comunicacoes.push(json);
+  actions: {
+    async add(json) {
+      console.log(o);
+      await comunicacao.create(o).then((o) => {
+        this.comunicacoes.push(json);
+      }
+      ).catch((e) => {
+        console.log(e);
+        if( e instanceof NotLoggedInError ) {
+          notifyNotLoggedIn();
+        }
+      });
     },
-    delete(id) {
-      let index = this.state.comunicacoes.findIndex(id);
+    async delete(id) {
+      let index = this.comunicacoes.findIndex(id);
       if (index >= 0) {
-        this.state.comunicacoes.splice(index, 1);
+        this.comunicacoes.splice(index, 1);
       }
     },
-    update(o) {
-      let index = this.state.comunicacoes.findIndex(o.id);
+    async update(o) {
+      let index = this.comunicacoes.findIndex(o.id);
       if (index >= 0) {
-        this.state.comunicacoes.splice(index, 1);
-        this.state.comunicacoes.push(o);
+        this.comunicacoes.splice(index, 1);
+        this.comunicacoes.push(o);
       }
     },
-    replace(list) {
-      this.state.comunicacoes = list;
+    async replace(list) {
+      this.comunicacoes = list;
+    },
+    async list() {
+      await comunicacao.list().then((response) => {
+        this.comunicacoes = response.data;
+      }).catch((e) => {
+        if( e instanceof NotLoggedInError ) {
+          notifyNotLoggedIn();
+        } else  {
+          notifyMessage('Falha ao listar comunicações', e.message, ERROR);
+        }
+      })
     }
   }
 });

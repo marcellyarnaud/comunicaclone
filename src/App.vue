@@ -6,12 +6,12 @@
 
 <script>
 import "../node_modules/fontawesome-free-v6/js/all";
-import HomePage from './components/HomePage.vue';
+import HomePage from './pages/HomePage.vue';
 
 export default {
   name: 'App',
   components: {
-    HomePage
+    HomePage,
   }
 }
 </script>

@@ -99,7 +99,7 @@
                             </div>
                         </template>
                         <b-dropdown-item class="left"> <i class="nav-icon fa fa-user"></i>
-                            <span id="infUserCPF"> {{ cpf }}</span></b-dropdown-item>
+                            <span id="infUserCPF"> {{ cpfFormatado }}</span></b-dropdown-item>
                         <b-dropdown-item class="left"><i class="nav-icon fa fa-power-off"></i>
                             <span id="sair"><strong> Sair</strong></span></b-dropdown-item>
                     </b-dropdown>
@@ -109,6 +109,7 @@
     </div>
 </template>
 <script>
+import * as utils from '../utils/field-formatters';
 
 export default {
     name: "AppHeader",
@@ -121,6 +122,9 @@ export default {
     components: {
     },
     computed:   {
+        cpfFormatado()  {
+            return utils.formataCPF(this.cpf);
+        }
     }
 }
 </script>

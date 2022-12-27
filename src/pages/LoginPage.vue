@@ -19,7 +19,8 @@
                 </div>
 
                 <div class="tab-pane" id="tabTemplateLogin">
-                    <b-modal id="modal-erro-certificado" ref="modal-erro-certificado" title="Erro de certificado" hideFooter>
+                    <b-modal id="modal-erro-certificado" ref="modal-erro-certificado" title="Erro de certificado"
+                        hideFooter>
                         <p>Certificado não cadastrado.<br />
                             Clique no botão <b>Aceitar Certificado</b> abaixo
                             para cadastrar e, em seguida, tente logar novamente.
@@ -109,12 +110,14 @@
     </div>
 </template>
 <script>
-import * as utils from "../utils/field-formatters.js";
-import * as sso from "../utils/sso.js";
-import { userStore } from "../stores/userStore.js";
+import * as utils from '../utils/field-formatters.js';
+import * as sso from '../utils/sso';
+import { ERROR, notificationMessages } from '../mixins/notificationMessages';
+import { storesCommon } from '../mixins/storesCommon';
 
 export default {
     name: "LoginPage",
+    mixins: [notificationMessages, storesCommon],
     data() {
         return {
             form: {
@@ -124,7 +127,6 @@ export default {
             passwordFieldType: "password",
             show: true,
             escondeModalErroCertificado: false,
-            store: userStore()
         }
     },
     computed: {
@@ -133,29 +135,40 @@ export default {
         },
         isLoggedIn() {
             return this.isValidCPF;
-        },
-        username() {
-            console.log(JSON.stringify(this.store));
-            return this.store.username;
         }
     },
     methods: {
-        formataCPF(valor)   {
-            return valor;//utils.formataCPF(valor);
+        formataCPF(valor) {
+            return utils.formataCPF(valor);
         },
         mostrarOcultarSenha() {
             this.passwordFieldType = (this.passwordFieldType === "password") ? "text" : "password";
         },
         onSubmit(event) {
-            console.log('OnSubmit: ' + this.form.username);
+/*
+            this.userStore.token = {
+                "string": "AP8NfpvzVFVacIfQckx2WWxGsnylpt",
+                "used_at": null,
+                "created_at": 1670347467
+            };
+            this.userStore.user = {
+                "cpf": "75814943653",
+                "nome": "Lucas Martins do Amaral",
+                "email": "lucas.amaral@serpro.gov.br",
+                "conexao": "SERPRO"
+            };
+            this.userStore.perfil = 'Administrador';
+            this.$router.push({ name: 'frontPage' }, () => { console.debug('Ok') }, (e) => { console.debug('Error: ' + e) });
+*/
+            console.log('OnSubmit: ' + utils.removeNonDigits(this.form.username));
             event.preventDefault();
-            sso.login(this.form.username, this.form.password)
+            sso.login(utils.removeNonDigits(this.form.username), this.form.password)
                 .then((response) => {
                     console.log(response);
                     if (response.status == 200) {
-                        this.store.token = response.data.token;
-                        this.store.user = response.data.user;
-                        this.store.perfil = 'Administrador';
+                        this.userStore.token = response.data.token;
+                        this.userStore.user = response.data.user;
+                        this.userStore.perfil = 'Administrador';
                         //console.log(JSON.stringify(this.store, null, "\t"));
                         //console.log('Current: ' + this.$route.path);
                         this.$router.push({ name: 'frontPage' }, () => { console.debug('Ok') }, (e) => { console.debug('Error: ' + e) });
@@ -164,6 +177,8 @@ export default {
                     console.log("Erro durante login: " + error);
                     if (error.code == "ERR_NETWORK") {
                         this.$refs['modal-erro-certificado'].show();
+                    } else {
+                        this.notify('Erro login', error.message, ERROR);
                     }
                 });
         },

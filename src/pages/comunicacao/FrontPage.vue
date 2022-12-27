@@ -93,18 +93,21 @@
                     </b-card-footer>
                 </b-collapse>
             </b-card>
+            <b-card>
+                <b-card-body>
+                    <b-table striped responsive hover :items="tableRows" :fields="comunicacoesFields"></b-table>
+                </b-card-body>
+            </b-card>
         </b-form>
     </div>
 </template>
 <script>
-import Comunicacao from "../../rest/comunicacao.js";
-import { comunicacoesStore } from "../../stores/comunicacoesStore";
+import { notificationMessages } from "../../mixins/notificationMessages";
+import { storesCommon } from "../../mixins/storesCommon";
 
 export default {
     name: "FrontPage",
-    props: {
-
-    },
+    mixins: [notificationMessages, storesCommon],
     data() {
         return {
             visible: true,
@@ -125,13 +128,45 @@ export default {
                     ]
                 }
             ],
-            comunicacao: new Comunicacao(),
-            comunicacaoStore: comunicacoesStore()
+            comunicacoesFields: [
+                {
+                    key: 'titulo',
+                    label: 'Título',
+                    sortable: true
+                },
+                {
+                    key: 'resumo',
+                    sortable: false
+                },
+                {
+                    key: 'acao',
+                    label: 'Estado',
+                    sortable: true,
+                },
+                {
+                    key: 'acoes',
+                    label: 'Ações',
+                    sortable: false,
+                    variant: 'info'
+                },
+            ],
+
         }
     },
     computed: {
         btnToggleCaption() {
             return this.visible ? "Recolher" : "Expandir";
+        },
+        tableRows() {
+            let resultado = this.comunicacoesStore.listaComunicacoes.map(
+                (element) => {
+                    return {
+                        ...element,
+                        'acoes': ['ovo', 'carne']
+                    }
+                }
+            );
+            return resultado;
         }
     },
     methods: {
@@ -142,11 +177,13 @@ export default {
             event.preventDefault();
             console.log('Filtrando');
             console.log(this.$data);
-            this.comunicacao.list();
-            console.log(this.comunicacaoStore.listaComunicacoes);
+            this.comunicacoesStore.list();
+            console.log('Resultado lista:');
+            console.log(this.comunicacoesStore.listaComunicacoes);
         },
         onReset() {
             console.log('Limpando campos');
+            this.notify('Eu que fiz', 'Problemas', 'i');
         }
     }
 }

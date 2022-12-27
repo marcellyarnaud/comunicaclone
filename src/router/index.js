@@ -1,12 +1,12 @@
 import VueRouter from "vue-router";
-import RedirectPage from "../components/RedirectPage.vue";
+import RedirectPage from "../pages/RedirectPage.vue";
 
 export const router = new VueRouter({
   routes: [
     {
       path: "/",
       name: "home",
-      component: () => import("../components/LoginPage.vue"),
+      component: () => import("../pages/LoginPage.vue"),
     },
     {
       path: "/r.html",
@@ -16,7 +16,7 @@ export const router = new VueRouter({
     {
       path: "/comunicacoes/frontpage",
       name: "frontPage",
-      component: () => import("../components/comunicacao/FrontPage.vue"),
+      component: () => import("../pages/comunicacao/FrontPage.vue"),
     },
     {
       path: "/about",

@@ -1,5 +1,7 @@
 import axios from "axios";
 import { userStore } from "../stores/userStore.js";
+import { NotLoggedInError } from "../errors/NotLoggedInError.js";
+import * as utils from "../utils/field-formatters";
 
 export default class CRUD {
     #host = 'http://localhost:8080';
@@ -7,6 +9,7 @@ export default class CRUD {
 
     constructor(model) {
         this.model = model;
+        this.store = null;
     }
 
     axiosInstance() {
@@ -17,6 +20,9 @@ export default class CRUD {
 
         console.debug('CRUD cpf: ' + userStore().cpf);
         console.debug('CRUD Token: ' + userStore().chave);
+        if( utils.isEmptyString(userStore().cpf) || utils.isEmptyString(userStore().chave ) ) {
+            throw new NotLoggedInError();
+        }
         return instance;
     }
 

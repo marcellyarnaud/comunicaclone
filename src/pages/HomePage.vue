@@ -1,36 +1,27 @@
 <template>
     <div>
-        <AppHeader id="header" class="app-header navbar" :nome="store.username" :perfil="store.perfil" :cpf="store.cpf"
-            :isLoggedIn=isLoggedIn>
+        <AppHeader id="header" class="app-header navbar" :nome="userStore.username" :perfil="userStore.perfil"
+            :cpf="userStore.cpf" :isLoggedIn=isLoggedIn>
         </AppHeader>
 
-        <router-view/>
+        <router-view />
 
         <AppFooter></AppFooter>
     </div>
 </template>
 <script>
-import AppHeader from "./AppHeader.vue";
-import AppFooter from "./AppFooter.vue";
+import AppHeader from "../components/AppHeader.vue";
+import AppFooter from "../components/AppFooter.vue";
 import LoginPage from "./LoginPage.vue";
-import { userStore } from "../stores/userStore.js";
+import { storesCommon } from "../mixins/storesCommon";
 
 export default {
     name: "HomePage",
+    mixins: [storesCommon],
     components: {
         AppHeader,
         AppFooter,
         LoginPage
-    },
-    data() {
-        return {
-            store: userStore(),
-        }
-    },
-    computed: {
-        isLoggedIn() {
-            return this.store.isLoggedIn;
-        }
     }
 }
 </script>

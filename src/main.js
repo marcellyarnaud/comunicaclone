@@ -21,6 +21,10 @@ import { createPinia } from "pinia";
 import { router } from "../src/router/index.js";
 import VueRouter from 'vue-router';
 
+import { BVToastPlugin } from 'bootstrap-vue';
+
+Vue.use(BVToastPlugin);
+
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
 Vue.use(components);
@@ -29,7 +33,7 @@ Vue.use(IconsPlugin);
 Vue.use(createPinia());
 Vue.use(VueRouter);
 
-new Vue({
+export const vm = new Vue({
   router: router,
   render: h => h(App),
 }).$mount('#app')

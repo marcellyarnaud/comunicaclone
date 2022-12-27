@@ -583,3 +583,11 @@ export function highlight(id) {
 	code.textContent = wrapper.innerText;
 	hljs.highlightElement(code);
 }
+
+export function isEmptyString(str)	{
+	return str == undefined || str == null || str.trim().length == 0;
+}
+
+export function removeNonDigits(str)	{
+	return str.replace(/\D/g,'');
+}
