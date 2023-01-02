@@ -28,3 +28,6 @@ coverage
 *.sw?
 yarn.lock
 .history/*
+/test-results/
+/playwright-report/
+/playwright/.cache/

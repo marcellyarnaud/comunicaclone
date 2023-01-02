@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import { NotLoggedInError } from "../errors/NotLoggedInError";
 import Comunicacao from "../rest/comunicacao";
-import { ERROR, notifyMessage, notifyNotLoggedIn } from "../mixins/notificationMessages";
+import * as errorUtils from '../errors/ErrorsUtils';
+import * as utils from '../utils/utils';
 
 const comunicacao = new Comunicacao();
 
@@ -45,44 +45,47 @@ export const comunicacoesStore = defineStore("comunicacoesStore", {
     listaComunicacoes: (state) => state.comunicacoes
   },
   actions: {
-    async add(json) {
-      console.log(o);
-      await comunicacao.create(o).then((o) => {
-        this.comunicacoes.push(json);
-      }
-      ).catch((e) => {
-        console.log(e);
-        if( e instanceof NotLoggedInError ) {
-          notifyNotLoggedIn();
-        }
+    reset() {
+      this.comunicacoes.length = 0;
+      this.index = -1;
+    },
+    async add(o) {
+      await comunicacao.create(o).then((response) => {
+        this.comunicacoes.push(o);
+      }).catch((e) => {
+        errorUtils.treatError(e, 'Falha ao incluir registro');
       });
     },
     async delete(id) {
       let index = this.comunicacoes.findIndex(id);
       if (index >= 0) {
-        this.comunicacoes.splice(index, 1);
+        await comunicacao.delete(index).then((response) => {
+          this.comunicacoes.splice(index, 1);
+        }).catch((e) => {
+          errorUtils.treatError(e, 'Falha ao excluir registro');
+        });
       }
     },
     async update(o) {
       let index = this.comunicacoes.findIndex(o.id);
       if (index >= 0) {
-        this.comunicacoes.splice(index, 1);
-        this.comunicacoes.push(o);
+        await comunicacao.update(index).then((response) => {
+          this.comunicacoes.splice(index, 1);
+          this.comunicacoes.push(o);
+        }).catch((e) => {
+          errorUtils.treatError(e, 'Falha ao atualizar comunicação');
+        });
       }
     },
-    async replace(list) {
-      this.comunicacoes = list;
-    },
-    async list() {
-      await comunicacao.list().then((response) => {
+    async list(colunas,pathParams,qp) {
+      let queryParams = utils.createdParamsArray(colunas,qp);
+
+      await comunicacao.list(pathParams, queryParams).then((response) => {
         this.comunicacoes = response.data;
+        this.index = ( this.comunicacoes.length > 0 ) ? 0 : -1;
       }).catch((e) => {
-        if( e instanceof NotLoggedInError ) {
-          notifyNotLoggedIn();
-        } else  {
-          notifyMessage('Falha ao listar comunicações', e.message, ERROR);
-        }
-      })
+        errorUtils.treatError(e, 'Falha ao listar registros');
+      });
     }
   }
 });

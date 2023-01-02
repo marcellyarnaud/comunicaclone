@@ -66,7 +66,7 @@
                             <b-col sm="3">
                                 <b-form-group label="Data Inicial" label-for="dataInicio">
                                     <b-form-datepicker id="dataInicio" locale="pt-BR" placeholder="Escolha uma data"
-                                        v-model="dataInicio"
+                                        v-model="dataInicio" value-as-date
                                         :date-format-options="{ weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' }"
                                         today-button close-button right></b-form-datepicker>
                                 </b-form-group>
@@ -74,7 +74,7 @@
                             <b-col sm="3">
                                 <b-form-group label="Data Final" label-for="dataFim">
                                     <b-form-datepicker id="dataFim" locale="pt-BR" placeholder="Escolha uma data"
-                                        v-model="dataFim"
+                                        v-model="dataFim" value-as-date
                                         :date-format-options="{ weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric' }"
                                         today-button close-button dropright></b-form-datepicker>
                                 </b-form-group>
@@ -94,7 +94,7 @@
                 </b-collapse>
             </b-card>
             <b-card>
-                <b-card-body>
+                <b-card-body :hidden="comunicacoesStore.index < 0">
                     <b-table striped responsive hover :items="tableRows" :fields="comunicacoesFields"></b-table>
                 </b-card-body>
             </b-card>
@@ -102,7 +102,7 @@
     </div>
 </template>
 <script>
-import { notificationMessages } from "../../mixins/notificationMessages";
+import { INFO, notificationMessages } from "../../mixins/notificationMessages";
 import { storesCommon } from "../../mixins/storesCommon";
 
 export default {
@@ -158,6 +158,9 @@ export default {
             return this.visible ? "Recolher" : "Expandir";
         },
         tableRows() {
+            if (this.comunicacoesStore.index < 0) {
+                return [];
+            }
             let resultado = this.comunicacoesStore.listaComunicacoes.map(
                 (element) => {
                     return {
@@ -177,13 +180,31 @@ export default {
             event.preventDefault();
             console.log('Filtrando');
             console.log(this.$data);
-            this.comunicacoesStore.list();
+            this.comunicacoesStore.list(
+                'titulo:resumo',
+                undefined,
+                {
+                    'startDate': this.dataInicio,
+                    'endDate': this.dataFim,
+                    'status': this.selectedEstado,
+                    'titulo': this.titulo,
+                    'resumo': this.resumo
+                });
             console.log('Resultado lista:');
             console.log(this.comunicacoesStore.listaComunicacoes);
         },
         onReset() {
             console.log('Limpando campos');
-            this.notify('Eu que fiz', 'Problemas', 'i');
+            this.notify('Consulta desfeita', 'Os parâmetros da consulta foram limpos e o resultado ficou em branco. \
+            \
+            /n Para nova consulta, selecione os parâmetros e/ou clique no botão "Filtrar"', INFO);
+            this.dataInicio = null;
+            this.dataFim = null;
+            this.titulo = '';
+            this.resumo = '';
+            this.selectedEstado = null;
+
+            this.comunicacoesStore.reset();
         }
     }
 }

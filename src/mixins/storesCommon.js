@@ -1,7 +1,7 @@
 import { userStore } from "../stores/userStore";
 import { comunicacoesStore } from "../stores/comunicacoesStore";
 
-export const storesCommon = {
+export var storesCommon = {
     data() {
         return {
             userStore: userStore(),
@@ -10,10 +10,10 @@ export const storesCommon = {
     },
     computed: {
         username() {
-            return this.userStore.username;
+            return this.userStore ? this.userStore.username : '';
         },
         isLoggedIn() {
-            return this.userStore.isLoggedIn;
+            return this.userStore ? this.userStore.isLoggedIn : false;
         }
     }
 }

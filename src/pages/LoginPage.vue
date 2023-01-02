@@ -110,9 +110,9 @@
     </div>
 </template>
 <script>
-import * as utils from '../utils/field-formatters.js';
+import * as utils from '../utils/field-formatters';
 import * as sso from '../utils/sso';
-import { ERROR, notificationMessages } from '../mixins/notificationMessages';
+import { ERROR, notificationMessages, WARNING } from '../mixins/notificationMessages';
 import { storesCommon } from '../mixins/storesCommon';
 
 export default {
@@ -134,7 +134,7 @@ export default {
             return (this && this.form && this.form.username) ? utils.validaCPF(this.form.username) : false;
         },
         isLoggedIn() {
-            return this.isValidCPF;
+            return this.isValidCPF();
         }
     },
     methods: {
@@ -145,21 +145,21 @@ export default {
             this.passwordFieldType = (this.passwordFieldType === "password") ? "text" : "password";
         },
         onSubmit(event) {
-/*
-            this.userStore.token = {
-                "string": "AP8NfpvzVFVacIfQckx2WWxGsnylpt",
-                "used_at": null,
-                "created_at": 1670347467
-            };
-            this.userStore.user = {
-                "cpf": "75814943653",
-                "nome": "Lucas Martins do Amaral",
-                "email": "lucas.amaral@serpro.gov.br",
-                "conexao": "SERPRO"
-            };
-            this.userStore.perfil = 'Administrador';
-            this.$router.push({ name: 'frontPage' }, () => { console.debug('Ok') }, (e) => { console.debug('Error: ' + e) });
-*/
+            /*
+                        this.userStore.token = {
+                            "string": "AP8NfpvzVFVacIfQckx2WWxGsnylpt",
+                            "used_at": null,
+                            "created_at": 1670347467
+                        };
+                        this.userStore.user = {
+                            "cpf": "75814943653",
+                            "nome": "Lucas Martins do Amaral",
+                            "email": "lucas.amaral@serpro.gov.br",
+                            "conexao": "SERPRO"
+                        };
+                        this.userStore.perfil = 'Administrador';
+                        this.$router.push({ name: 'frontPage' }, () => { console.debug('Ok') }, (e) => { console.debug('Error: ' + e) });
+            */
             console.log('OnSubmit: ' + utils.removeNonDigits(this.form.username));
             event.preventDefault();
             sso.login(utils.removeNonDigits(this.form.username), this.form.password)
