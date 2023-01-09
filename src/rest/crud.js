@@ -17,7 +17,7 @@ export default class CRUD {
         let instance = axios.create();
         instance.defaults.headers.common["Content-Type"] = "application/json;charset=UTF-8";
         //instance.defaults.headers.common["Token"] = usuariosStore().chave;
-        instance.defaults.headers.common["Comunica.Vue"] = "SSOSUPOP " + usuariosStore().chave;
+        instance.defaults.headers.common["Comunica-Vue"] = "SSOSUPOP " + usuariosStore().chave;
         //instance.defaults.headers.common["Authorization"] = "Bearer " + usuariosStore().chave;
         instance.defaults.headers.common["cpf"] = usuariosStore().cpf;
 

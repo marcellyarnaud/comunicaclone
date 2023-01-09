@@ -109,12 +109,13 @@ export const usuariosStore = defineStore("usuariosStore", {
           'user': this.user
         }
       }).then((response) => {
-        if (response == HttpStatusCode.Ok) {
+        if (response.status == HttpStatusCode.Ok) {
+          console.log('Headers: ' + JSON.stringify(response.headers));
           let element = this.usuarios.find(element => element.id === this.cpf);
           if (element) {
             element.teams = response.data.teams;
           }
-          console.log('element:' + element);
+          console.log('element:' + JSON.stringify(element));
         } else  {
           errorUtils.treatWarning(response.code, response.data);
         }
@@ -124,7 +125,7 @@ export const usuariosStore = defineStore("usuariosStore", {
     },
     async sessionExpired() {
       await usuario.sessionExpired(this.cpf).then((response) => {
-        if (response.code == HttpStatusCode.NotFound) {
+        if (response.status == HttpStatusCode.NotFound) {
           notifyNotLoggedIn();
         }
       }).catch((e) => {

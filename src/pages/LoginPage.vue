@@ -165,7 +165,7 @@ export default {
             event.preventDefault();
             sso.login(utils.removeNonDigits(this.form.username), this.form.password)
                 .then((response) => {
-                    console.log(response + ' : ' + HttpStatusCode.Ok);
+                    console.log('SSO Login: ' + response.status);
                     if (response.status == HttpStatusCode.Ok) {
                         this.usuariosStore.token = response.data.token;
                         this.usuariosStore.user = response.data.user;
