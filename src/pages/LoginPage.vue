@@ -114,6 +114,7 @@ import * as utils from '../utils/field-formatters';
 import * as sso from '../utils/sso';
 import { ERROR, notificationMessages, WARNING } from '../mixins/notificationMessages';
 import { storesCommon } from '../mixins/storesCommon';
+import { HttpStatusCode } from 'axios';
 
 export default {
     name: "LoginPage",
@@ -146,31 +147,31 @@ export default {
         },
         onSubmit(event) {
             /*
-                        this.userStore.token = {
+                        this.usuariosStore.token = {
                             "string": "AP8NfpvzVFVacIfQckx2WWxGsnylpt",
                             "used_at": null,
                             "created_at": 1670347467
                         };
-                        this.userStore.user = {
+                        this.usuariosStore.user = {
                             "cpf": "75814943653",
                             "nome": "Lucas Martins do Amaral",
                             "email": "lucas.amaral@serpro.gov.br",
                             "conexao": "SERPRO"
                         };
-                        this.userStore.perfil = 'Administrador';
+                        this.usuariosStore.perfil = 'Administrador';
                         this.$router.push({ name: 'frontPage' }, () => { console.debug('Ok') }, (e) => { console.debug('Error: ' + e) });
             */
             console.log('OnSubmit: ' + utils.removeNonDigits(this.form.username));
             event.preventDefault();
             sso.login(utils.removeNonDigits(this.form.username), this.form.password)
                 .then((response) => {
-                    console.log(response);
-                    if (response.status == 200) {
-                        this.userStore.token = response.data.token;
-                        this.userStore.user = response.data.user;
-                        this.userStore.perfil = 'Administrador';
-                        //console.log(JSON.stringify(this.store, null, "\t"));
-                        //console.log('Current: ' + this.$route.path);
+                    console.log(response + ' : ' + HttpStatusCode.Ok);
+                    if (response.status == HttpStatusCode.Ok) {
+                        this.usuariosStore.token = response.data.token;
+                        this.usuariosStore.user = response.data.user;
+                        this.usuariosStore.perfil = 'Administrador';
+                        this.usuariosStore.loggedIn();
+
                         this.$router.push({ name: 'frontPage' }, () => { console.debug('Ok') }, (e) => { console.debug('Error: ' + e) });
                     }
                 }).catch((error) => {

@@ -1,19 +1,19 @@
-import { userStore } from "../stores/userStore";
+import { usuariosStore } from "../stores/usuariosStore";
 import { comunicacoesStore } from "../stores/comunicacoesStore";
 
 export var storesCommon = {
     data() {
         return {
-            userStore: userStore(),
+            usuariosStore: usuariosStore(),
             comunicacoesStore: comunicacoesStore()
         }
     },
     computed: {
         username() {
-            return this.userStore ? this.userStore.username : '';
+            return this.usuariosStore ? this.usuariosStore.username : '';
         },
         isLoggedIn() {
-            return this.userStore ? this.userStore.isLoggedIn : false;
+            return this.usuariosStore ? this.usuariosStore.isLoggedIn : false;
         }
     }
 }

@@ -172,14 +172,11 @@ export default {
             return resultado;
         }
     },
+    mounted()    {
+        this.carregaListaComunicacoes();        
+    },
     methods: {
-        cadastrarNovaComunicacao() {
-            console.log('Cadastrando nova comunicação!');
-        },
-        onSubmit(event) {
-            event.preventDefault();
-            console.log('Filtrando');
-            console.log(this.$data);
+        carregaListaComunicacoes() {
             this.comunicacoesStore.list(
                 'titulo:resumo',
                 undefined,
@@ -190,8 +187,13 @@ export default {
                     'titulo': this.titulo,
                     'resumo': this.resumo
                 });
-            console.log('Resultado lista:');
-            console.log(this.comunicacoesStore.listaComunicacoes);
+        },
+        cadastrarNovaComunicacao() {
+            console.log('Cadastrando nova comunicação!');
+        },
+        onSubmit(event) {
+            event.preventDefault();
+            this.carregaListaComunicacoes();
         },
         onReset() {
             console.log('Limpando campos');

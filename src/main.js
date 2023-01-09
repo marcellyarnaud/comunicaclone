@@ -17,7 +17,7 @@ import "../node_modules/fontawesome-free-v6/webfonts/fa-regular-400.ttf";
 import "../node_modules/fontawesome-free-v6/webfonts/fa-solid-900.woff2";
 import "../node_modules/fontawesome-free-v6/webfonts/fa-solid-900.ttf";
 
-import { createPinia } from "pinia";
+import { createPinia, PiniaVuePlugin } from "pinia";
 import { router } from "../src/router/index.js";
 import VueRouter from 'vue-router';
 
@@ -30,10 +30,13 @@ Vue.use(BootstrapVue);
 Vue.use(components);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
-Vue.use(createPinia());
+Vue.use(PiniaVuePlugin);
 Vue.use(VueRouter);
+
+const pinia = createPinia();
 
 export const vm = new Vue({
   router: router,
+  pinia,
   render: h => h(App),
 }).$mount('#app')
