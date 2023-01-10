@@ -19,6 +19,11 @@ export const router = new VueRouter({
       component: () => import("../pages/comunicacao/FrontPage.vue"),
     },
     {
+      path: "/comunicacoes/edit",
+      name: "editComunicacao",
+      component: () => import("../pages/comunicacao/EditComunicacao.vue"),
+    },
+    {
       path: "/about",
       name: "about",
       // route level code-splitting

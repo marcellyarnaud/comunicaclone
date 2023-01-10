@@ -1,7 +1,6 @@
 import axios from "axios";
 import { usuariosStore } from "../stores/usuariosStore.js";
 import { NotLoggedInError } from "../errors/NotLoggedInError.js";
-import * as utils from "../utils/field-formatters";
 
 export default class CRUD {
     #host = 'http://localhost:8080';
@@ -14,18 +13,19 @@ export default class CRUD {
     }
 
     axiosInstance() {
+        if (usuariosStore().isThereSessionData() == false ) {
+            throw new NotLoggedInError();
+        }
+
         let instance = axios.create();
         instance.defaults.headers.common["Content-Type"] = "application/json;charset=UTF-8";
         //instance.defaults.headers.common["Token"] = usuariosStore().chave;
-        instance.defaults.headers.common["Comunica-Vue"] = "SSOSUPOP " + usuariosStore().chave;
+        instance.defaults.headers.common["Comunica-Vue"] = "SSOSUPOP " + usuariosStore().ssoToken();
         //instance.defaults.headers.common["Authorization"] = "Bearer " + usuariosStore().chave;
         instance.defaults.headers.common["cpf"] = usuariosStore().cpf;
 
         console.debug('CRUD cpf: ' + usuariosStore().cpf);
         console.debug('CRUD Token: ' + usuariosStore().chave);
-        if (utils.isEmptyString(usuariosStore().cpf) || utils.isEmptyString(usuariosStore().chave)) {
-            throw new NotLoggedInError();
-        }
         return instance;
     }
 

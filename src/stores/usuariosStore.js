@@ -3,6 +3,8 @@ import { defineStore } from "pinia";
 import Usuario from "../rest/usuario";
 import * as errorUtils from '../errors/ErrorsUtils';
 import { notifyNotLoggedIn } from "../mixins/notificationMessages";
+import { KEY_CPF, KEY_JWT } from "../utils/localStorage";
+import * as utils from "../utils/field-formatters";
 
 const usuario = new Usuario();
 
@@ -56,6 +58,9 @@ export const usuariosStore = defineStore("usuariosStore", {
     reset() {
       this.usuarios.length = 0;
       this.index = -1;
+    },
+    ssoToken() {
+      return localStorage.getItem(KEY_JWT) ? localStorage.getItem(KEY_JWT) : this.chave;
     },
     async add(o) {
       await usuario.create(o).then((response) => {
@@ -111,12 +116,16 @@ export const usuariosStore = defineStore("usuariosStore", {
       }).then((response) => {
         if (response.status == HttpStatusCode.Ok) {
           console.log('Headers: ' + JSON.stringify(response.headers));
+
+          localStorage.setItem(KEY_CPF, this.cpf);
+          localStorage.setItem(KEY_JWT, response.headers['comunica-vue']);
+
           let element = this.usuarios.find(element => element.id === this.cpf);
           if (element) {
             element.teams = response.data.teams;
           }
           console.log('element:' + JSON.stringify(element));
-        } else  {
+        } else {
           errorUtils.treatWarning(response.code, response.data);
         }
       }).catch((e) => {
@@ -131,6 +140,17 @@ export const usuariosStore = defineStore("usuariosStore", {
       }).catch((e) => {
         errorUtils.treatError(e, 'Falha ao verificar sessão');
       });
+    },
+    isThereSessionData() {
+      if (utils.isEmptyString(this.user.cpf) == false && utils.isEmptyString(this.token.string) == false) {
+        return true;
+      }
+      if (utils.isEmptyString(localStorage.getItem(KEY_CPF)) || utils.isEmptyString(localStorage.getItem(KEY_JWT))) {
+        return false;
+      }
+      this.user.cpf = localStorage.getItem(KEY_CPF);
+      //this.token.string = localStorage.getItem(KEY_JWT);
+      return true;
     }
   }
 });
