@@ -6,15 +6,21 @@ export default class Usuario extends CRUD {
     }
 
     async sessionExpired(cpf)   {
-        return await this.axiosInstance().get(
+        return await this.axiosInstance(true).get(
             this.mountURL(['checksession', cpf])
         );
     }
 
     async loggedIn(o)   {
-        return await this.axiosInstance().put(
+        return await this.axiosInstance(true).put(
             this.mountURL(['ssodata']),
             o
+        );
+    }
+
+    async mySSOData()   {
+        return await this.axiosInstance(true).get(
+            this.mountURL(['ssodata'])
         );
     }
 }

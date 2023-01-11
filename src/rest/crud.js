@@ -3,7 +3,7 @@ import { usuariosStore } from "../stores/usuariosStore.js";
 import { NotLoggedInError } from "../errors/NotLoggedInError.js";
 
 export default class CRUD {
-    #host = 'http://localhost:8080';
+    #host = (import.meta.env.DEV ? 'http://localhost:8080' : 'https://estaleiro.serpro.gov.br');
     //#host = 'https://comunica.hom.serpro/';
     #basePath = '/ComCom/diope/comcom/api/';
 
@@ -12,8 +12,8 @@ export default class CRUD {
         this.store = null;
     }
 
-    axiosInstance() {
-        if (usuariosStore().isThereSessionData() == false ) {
+    axiosInstance(bSkipSSODataCheck = false) {
+        if (usuariosStore().isThereSessionData(bSkipSSODataCheck) == false ) {
             throw new NotLoggedInError();
         }
 
@@ -21,11 +21,12 @@ export default class CRUD {
         instance.defaults.headers.common["Content-Type"] = "application/json;charset=UTF-8";
         //instance.defaults.headers.common["Token"] = usuariosStore().chave;
         instance.defaults.headers.common["Comunica-Vue"] = "SSOSUPOP " + usuariosStore().ssoToken();
-        //instance.defaults.headers.common["Authorization"] = "Bearer " + usuariosStore().chave;
+        //instance.defaults.headers.common["Authorization"] = "Bearer " + usuariosStore().ssoToken();
         instance.defaults.headers.common["cpf"] = usuariosStore().cpf;
 
-        console.debug('CRUD cpf: ' + usuariosStore().cpf);
-        console.debug('CRUD Token: ' + usuariosStore().chave);
+        console.debug('CRUD CPF: ' + usuariosStore().cpf);
+        console.debug('CRUD Chave: ' + usuariosStore().chave);
+        console.debug('CRUD SSO Token: ' + usuariosStore().ssoToken());
         return instance;
     }
 

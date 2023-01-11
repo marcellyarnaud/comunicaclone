@@ -141,7 +141,7 @@ export const usuariosStore = defineStore("usuariosStore", {
         errorUtils.treatError(e, 'Falha ao verificar sessão');
       });
     },
-    isThereSessionData() {
+    isThereSessionData(bSkipSSODataCheck) {
       if (utils.isEmptyString(this.user.cpf) == false && utils.isEmptyString(this.token.string) == false) {
         return true;
       }
@@ -150,6 +150,15 @@ export const usuariosStore = defineStore("usuariosStore", {
       }
       this.user.cpf = localStorage.getItem(KEY_CPF);
       //this.token.string = localStorage.getItem(KEY_JWT);
+      if( bSkipSSODataCheck == false )  {
+        usuario.mySSOData().then((response) => {
+          console.debug('Updating user store after refresh!');
+          this.token = response.data.token;
+          this.user = response.data.user;
+        }).catch((e) => {
+          console.debug('Erro buscando SSO Data quando perdeu detalhe sessão: ' + e);
+        })
+      }
       return true;
     }
   }
