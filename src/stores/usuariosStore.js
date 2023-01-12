@@ -103,6 +103,8 @@ export const usuariosStore = defineStore("usuariosStore", {
 
     // Métodos para tratar login e sessão do usuário
     async loggedIn() {
+      console.log('aqui');
+      /*
       await usuario.loggedIn({
         'id': this.cpf,
         'nome': this.nome,
@@ -131,6 +133,7 @@ export const usuariosStore = defineStore("usuariosStore", {
       }).catch((e) => {
         errorUtils.treatError(e, 'Falha ao cadatrar sessão');
       });
+      */
     },
     async sessionExpired() {
       await usuario.sessionExpired(this.cpf).then((response) => {
