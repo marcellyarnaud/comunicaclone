@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import Comunicacao from "../rest/comunicacao";
 import * as errorUtils from '../errors/ErrorsUtils';
-import * as utils from '../utils/utils';
+import * as utils from '../utils/index';
 
 const comunicacao = new Comunicacao();
 
