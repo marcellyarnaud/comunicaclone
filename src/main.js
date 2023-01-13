@@ -24,6 +24,7 @@ import Keycloak from 'keycloak-js';
 
 import Vuelogger from 'vuejs-logger'
 import { BVToastPlugin } from 'bootstrap-vue';
+import { usuariosStore } from './stores/usuariosStore';
 
 Vue.use(BVToastPlugin);
 
@@ -48,7 +49,6 @@ let initOptions = {
   checkLoginIframe: false,
   //checkLoginIframeInterval: 86400,
   enableLogging: true,
-  //redirectUri: 'https://localhost:5173/inicio'
 }
 const token = localStorage.getItem('_kc_token');
 const refreshToken = localStorage.getItem('_kc_refreshToken');
@@ -57,11 +57,9 @@ if (token && refreshToken) {
   initOptions.refreshToken = refreshToken;
 };
 
-let keycloak = new Keycloak(initOptions);
+export let keycloak = new Keycloak(initOptions);
 
-console.log('PaSSO 1');
 let authenticated = await keycloak.init(initOptions);
-console.log('PaSSO 2: ' + authenticated);
 
 export const vm = new Vue({
   router: router,
@@ -70,11 +68,13 @@ export const vm = new Vue({
 }).$mount('#app');
 
 if (!authenticated) {
-  console.log('Não autenticado');
+  console.log('GIA: Não autenticado');
   await keycloak.login().then((response) => {
+    console.debug('GIA: ' + JSON.stringify(response));
+    usuariosStore().loggedInUser(keycloak);
   }
   ).catch((e) => {
-    console.log(JSON.stringify(e));
+    console.log('GIA: ' + JSON.stringify(e));
   });
 }
 
@@ -86,9 +86,13 @@ keycloak.OnAuthRefreshSuccess = () => {
   localStorage.setItem('_kc_refreshToken', keycloak.refreshToken);
 };
 keycloak.OnTokenExpired = () => {
-  keycloak.updateToken(30);
+  keycloak.updateToken(30).then((refreshed) => {
+    if( refreshed ) {
+      console.debug('GIA: Token foi atualizado - ' + keycloak.token);
+    } else  {
+      console.debug('GIA: Token ainda é válido.');
+    }
+  });
 };
 
-console.log(JSON.stringify(keycloak.tokenParsed.NOME));
-console.log(JSON.stringify(keycloak.tokenParsed.CPF));
-console.log(JSON.stringify(keycloak.tokenParsed.email));
+usuariosStore().loggedInUser(keycloak);

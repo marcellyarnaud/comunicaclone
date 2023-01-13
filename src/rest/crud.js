@@ -1,6 +1,6 @@
-import axios from "axios";
-import { usuariosStore } from "../stores/usuariosStore.js";
-import { NotLoggedInError } from "../errors/NotLoggedInError.js";
+import axios from 'axios';
+import { usuariosStore } from '../stores/usuariosStore.js';
+import { NotLoggedInError } from '../errors/NotLoggedInError.js';
 
 export default class CRUD {
     #host = (import.meta.env.DEV ? 'http://localhost:8080' : 'https://estaleiro.serpro.gov.br');
@@ -18,15 +18,22 @@ export default class CRUD {
         }
 
         let instance = axios.create();
-        instance.defaults.headers.common["Content-Type"] = "application/json;charset=UTF-8";
-        //instance.defaults.headers.common["Token"] = usuariosStore().chave;
-        instance.defaults.headers.common["Comunica-Vue"] = "SSOSUPOP " + usuariosStore().ssoToken();
-        //instance.defaults.headers.common["Authorization"] = "Bearer " + usuariosStore().ssoToken();
-        instance.defaults.headers.common["cpf"] = usuariosStore().cpf;
+        instance.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
+        instance.defaults.headers.common['Token'] = 'Bearer ' + usuariosStore().token;
+        instance.defaults.headers.common['cpf'] = usuariosStore().cpf;
+        //instance.defaults.headers.common['Token'] = usuariosStore().token;
+        //instance.defaults.headers.common['Comunica-Vue'] = 'SSOSUPOP ' + usuariosStore().sessionToken();
+        //instance.defaults.headers.common['Authorization'] = 'Bearer ' + usuariosStore().sessionToken();
+        /*
+           sessionToken() {
+              return localStorage.getItem(KEY_JWT);
+            },
+        */
 
+        /*
         console.debug('CRUD CPF: ' + usuariosStore().cpf);
-        console.debug('CRUD Chave: ' + usuariosStore().chave);
-        console.debug('CRUD SSO Token: ' + usuariosStore().ssoToken());
+        console.debug('CRUD Token: ' + usuariosStore().token);
+        */
         return instance;
     }
 
@@ -78,9 +85,9 @@ export default class CRUD {
         );
     }
 
-    async retrieve(id) {
+    async retrieve(id, queryParams = undefined) {
         return await this.axiosInstance().get(
-            this.mountURL([id])
+            this.mountURL([id], queryParams)
         );
     }
 

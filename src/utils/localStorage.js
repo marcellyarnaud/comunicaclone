@@ -1,7 +1,7 @@
 import { notificationMessages } from "../mixins/notificationMessages";
 
 export const KEY_CPF = 'cpf';
-export const KEY_JWT = 'jwt';
+export const KEY_JWT = '_kc_token';
 
 export function setItem(key, value) {
     try {

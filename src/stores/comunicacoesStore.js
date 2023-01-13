@@ -83,8 +83,6 @@ export const comunicacoesStore = defineStore("comunicacoesStore", {
       await comunicacao.list(pathParams, queryParams).then((response) => {
         this.comunicacoes = response.data;
         this.index = ( this.comunicacoes.length > 0 ) ? 0 : -1;
-        console.log('Headers: ' + JSON.stringify(response.headers));
-        console.log('Comunica-Vue: ' + response.headers['comunica-vue']);
       }).catch((e) => {
         errorUtils.treatError(e, 'Falha ao listar registros');
       });

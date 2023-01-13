@@ -178,7 +178,7 @@ export default {
     methods: {
         carregaListaComunicacoes() {
             this.comunicacoesStore.list(
-                'titulo:resumo',
+                'titulo:resumo:acao',
                 undefined,
                 {
                     'startDate': this.dataInicio,
@@ -196,17 +196,13 @@ export default {
             this.carregaListaComunicacoes();
         },
         onReset() {
-            console.log('Limpando campos');
-            this.notify('Consulta desfeita', 'Os parâmetros da consulta foram limpos e o resultado ficou em branco. \
-            \
-            /n Para nova consulta, selecione os parâmetros e/ou clique no botão "Filtrar"', INFO);
             this.dataInicio = null;
             this.dataFim = null;
             this.titulo = '';
             this.resumo = '';
             this.selectedEstado = null;
 
-            this.comunicacoesStore.reset();
+            this.carregaListaComunicacoes();
         }
     }
 }

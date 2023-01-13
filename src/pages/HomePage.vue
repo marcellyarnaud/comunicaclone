@@ -1,7 +1,7 @@
 <template>
     <div>
         <AppHeader id="header" class="app-header navbar" :nome="usuariosStore.username" :perfil="usuariosStore.perfil"
-            :cpf="usuariosStore.cpf" :isLoggedIn="isLoggedIn">
+            :cpf="usuariosStore.cpf" :isLoggedIn="usuariosStore.isLoggedIn()">
         </AppHeader>
 
         <router-view />

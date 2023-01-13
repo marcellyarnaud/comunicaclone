@@ -1,12 +1,12 @@
 import basicSsl from '@vitejs/plugin-basic-ssl'
 
 import path from 'path';
-import { createVuePlugin } from 'vite-plugin-vue2';
+import vue from '@vitejs/plugin-vue2'
 
-module.exports = {
+export default {
   plugins: [
-    basicSsl(),
-    createVuePlugin()
+    vue(),
+    basicSsl()
   ],
   resolve: {
     alias: {
