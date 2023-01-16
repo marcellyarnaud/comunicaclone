@@ -5,6 +5,7 @@ Vue.config.productionTip = false
 
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import * as components from "bootstrap-vue/esm/components";
+import { installComponentsGlobals } from './components/globals';
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";
@@ -32,6 +33,9 @@ Vue.use(components);
 Vue.use(IconsPlugin);
 Vue.use(PiniaVuePlugin);
 Vue.use(VueRouter);
+
+// injetando propriedades e funções comuns em todos os componentes
+installComponentsGlobals(Vue);
 
 const pinia = createPinia();
 
