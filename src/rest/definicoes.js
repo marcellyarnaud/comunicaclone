@@ -5,40 +5,30 @@ export default class Definicoes extends CRUD {
         super('definicoes');
     }
 
-    async eventos()   {
-        await this.axiosInstance(true).get(
+    eventos()   {
+        return this.axiosInstance(true).get(
             this.mountURL(['eventos'])
-        ).then((response) => {
-            console.log(JSON.stringify(response.data));
-        });
+        );
     }
-    async perfis()   {
-        await this.axiosInstance(true).get(
+    perfis()   {
+        return this.axiosInstance(true).get(
             this.mountURL(['perfis'])
-        ).then((response) => {
-            console.log(JSON.stringify(response.data));
-        });
+        );
     }
-    async outlookDestinatarios()   {
-        await this.axiosInstance(true).get(
+    outlookDestinatarios()   {
+        return this.axiosInstance(true).get(
             this.mountURL(['outlook/destinatarios'])
-        ).then((response) => {
-            console.log(JSON.stringify(response.data));
-        });
+        );
     }
-    async destinos()   {
-        await this.axiosInstance(true).get(
+    destinos()   {
+        return this.axiosInstance(true).get(
             this.mountURL(['destinos'])
-        ).then((response) => {
-            console.log(JSON.stringify(response.data));
-        });
+        );
     }
-    async publicacoesTipos()   {
-        await this.axiosInstance(true).get(
+    publicacoesTipos()   {
+        return this.axiosInstance(true).get(
             this.mountURL(['publicacoes/tipos'])
-        ).then((response) => {
-            console.log(JSON.stringify(response.data));
-        });
+        );
     }
     /*
     async eventos()   {

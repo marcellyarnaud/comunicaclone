@@ -2,13 +2,10 @@ import { HttpStatusCode } from 'axios';
 import { defineStore } from 'pinia';
 import Usuario from '../rest/usuario';
 import * as errorUtils from '../errors/ErrorsUtils';
-import { notifyNotLoggedIn } from '../mixins/notificationMessages';
 import { KEY_CPF, KEY_JWT } from '../utils/localStorage';
 import * as utils from '../utils/index';
 import * as AppRouter from '../router/index';
 
-import Definicoes from '../rest/definicoes';
-const definicoes = new Definicoes();
 const usuario = new Usuario();
 
 export const usuariosStore = defineStore('usuariosStore', {
@@ -64,11 +61,6 @@ export const usuariosStore = defineStore('usuariosStore', {
       localStorage.setItem(KEY_CPF, this.cpf);
 
       this.perfilUsuarioLogado();
-
-      definicoes.outlookDestinatarios();
-      definicoes.eventos();
-      definicoes.perfis();
-      definicoes.destinos();
 
       AppRouter.router.push({ name: 'frontPage' }, () => { console.debug('Ok') }, (e) => { console.debug('Error: ' + e) });
     },

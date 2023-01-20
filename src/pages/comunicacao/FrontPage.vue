@@ -95,14 +95,21 @@
             </b-card>
             <b-card>
                 <b-card-body :hidden="comunicacoesStore.index < 0">
-                    <b-table striped responsive hover :items="tableRows" :fields="comunicacoesFields"></b-table>
+                    <b-table striped responsive hover :busy="isBusy" :items="tableRows" :fields="comunicacoesFields">
+                        <template #table-busy>
+                            <div class="text-center text-danger my-2">
+                                <b-spinner class="align-middle"></b-spinner>
+                                <strong>Carregando...</strong>
+                            </div>
+                        </template>
+                    </b-table>
                 </b-card-body>
             </b-card>
         </b-form>
     </div>
 </template>
 <script>
-import { INFO, notificationMessages } from "../../mixins/notificationMessages";
+import { notificationMessages } from "../../mixins/notificationMessages";
 import { storesCommon } from "../../mixins/storesCommon";
 
 export default {
@@ -110,6 +117,7 @@ export default {
     mixins: [notificationMessages, storesCommon],
     data() {
         return {
+            isBusy: false,
             visible: true,
             selectedEstado: null,
             dataInicio: null,
@@ -172,11 +180,13 @@ export default {
             return resultado;
         }
     },
-    mounted()    {
-        this.carregaListaComunicacoes();        
+    mounted() {
+        this.definicoesStore.reloadAll();
+        this.carregaListaComunicacoes();
     },
     methods: {
         carregaListaComunicacoes() {
+            this.isBusy = true;
             this.comunicacoesStore.list(
                 'titulo:resumo:acao',
                 undefined,
@@ -186,6 +196,8 @@ export default {
                     'status': this.selectedEstado,
                     'titulo': this.titulo,
                     'resumo': this.resumo
+                }).then(() => {
+                    this.isBusy = false;
                 });
         },
         cadastrarNovaComunicacao() {
@@ -208,5 +220,8 @@ export default {
 }
 </script>
 <style>
-
+/* Busy table styling */
+table.b-table[aria-busy='true'] {
+    opacity: 0.6;
+}
 </style>

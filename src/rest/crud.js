@@ -78,34 +78,34 @@ export default class CRUD {
         return url;
     }
 
-    async create(o) {
+    create(o) {
         return this.axiosInstance().post(
             this.mountURL(),
             o
         );
     }
 
-    async retrieve(id, queryParams = undefined) {
-        return await this.axiosInstance().get(
+    retrieve(id, queryParams = undefined) {
+        return this.axiosInstance().get(
             this.mountURL([id], queryParams)
         );
     }
 
-    async update(o) {
-        return await this.axiosInstance().put(
+    update(o) {
+        return this.axiosInstance().put(
             this.mountURL(),
             o
         );
     }
 
-    async delete(id) {
-        return await this.axiosInstance().delete(
+    delete(id) {
+        return this.axiosInstance().delete(
             this.mountURL([id])
         );
     }
 
-    async list(pathParams, queryParams) {
-        return await this.axiosInstance().get(
+    list(pathParams, queryParams) {
+        return this.axiosInstance().get(
             this.mountURL(pathParams, queryParams)
         );
     }
