@@ -38,25 +38,25 @@ export const definicoesStore = defineStore('definicoesStore', {
       definicoes.eventos().then((response) => {
         this.eventos = response.data;
       }).catch((e) => {
-        errorUtils.treatError(e, 'Falha ao obter destinatários Outlook');
+        errorUtils.treatError(e, 'Falha ao obter eventos');
       });
       // Perfis
       definicoes.perfis().then((response) => {
         this.perfis = response.data;
       }).catch((e) => {
-        errorUtils.treatError(e, 'Falha ao obter destinatários Outlook');
+        errorUtils.treatError(e, 'Falha ao obter perfis');
       });
       // Destinos (Teams, Outlook, HTML, etc)
       definicoes.destinos().then((response) => {
         this.destinosPublicacao = response.data;
       }).catch((e) => {
-        errorUtils.treatError(e, 'Falha ao obter destinatários Outlook');
+        errorUtils.treatError(e, 'Falha ao obter destinos');
       });
       // Tipos de publicações (templates de formatação com 'Em Tempo', 'Primeira Leitura', etc)
       definicoes.publicacoesTipos().then((response) => {
         this.formatosPublicacao = response.data;
       }).catch((e) => {
-        errorUtils.treatError(e, 'Falha ao obter destinatários Outlook');
+        errorUtils.treatError(e, 'Falha ao obter tipos de publicações');
       });
     },
   }

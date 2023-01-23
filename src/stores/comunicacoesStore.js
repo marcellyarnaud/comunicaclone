@@ -84,7 +84,7 @@ export const comunicacoesStore = defineStore("comunicacoesStore", {
         this.comunicacoes = response.data;
         this.index = ( this.comunicacoes.length > 0 ) ? 0 : -1;
       }).catch((e) => {
-        errorUtils.treatError(e, 'Falha ao listar registros');
+        errorUtils.treatError(e, 'Falha ao listar comunicações');
       });
     }
   }

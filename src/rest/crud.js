@@ -3,7 +3,7 @@ import { usuariosStore } from '../stores/usuariosStore.js';
 import { NotLoggedInError } from '../errors/NotLoggedInError.js';
 
 export default class CRUD {
-    #host = (import.meta.env.DEV ? 'http://localhost:8080' : 'https://estaleiro.serpro.gov.br');
+    #host = (import.meta.env.DEV ? 'https://10.200.182.42' : 'https://estaleiro.serpro.gov.br');
     //#host = 'https://comunica.hom.serpro/';
     #basePath = '/ComCom/diope/comcom/api/';
 
@@ -13,7 +13,7 @@ export default class CRUD {
     }
 
     axiosInstance(bSkipSSODataCheck = false) {
-        if (usuariosStore().isThereSessionData(bSkipSSODataCheck) == false ) {
+        if (usuariosStore().isThereSessionData(bSkipSSODataCheck) == false) {
             throw new NotLoggedInError();
         }
 
@@ -38,12 +38,12 @@ export default class CRUD {
     }
 
     #buildPathParams(pathParams) {
-        if (pathParams == undefined || pathParams.length == 0)  {
-            return '';            
+        if (pathParams == undefined || pathParams.length == 0) {
+            return '';
         }
         let pp = '';
-        for(const p of pathParams)  {
-            pp +=  '/' + p;
+        for (const p of pathParams) {
+            pp += '/' + p;
         }
         return pp;
     }
