@@ -102,6 +102,9 @@
                                 <strong>Carregando...</strong>
                             </div>
                         </template>
+                        <template #cell(acoes)="data">
+                            <span v-html="data.value"></span>
+                        </template>
                     </b-table>
                 </b-card-body>
             </b-card>
@@ -173,7 +176,7 @@ export default {
                 (element) => {
                     return {
                         ...element,
-                        'acoes': ['ovo', 'carne']
+                        'acoes': '<a href="http://www.serpro.gov.br/">Análise Impacto</a>'
                     }
                 }
             );
