@@ -3,7 +3,7 @@ import { usuariosStore } from '../stores/usuariosStore.js';
 import { NotLoggedInError } from '../errors/NotLoggedInError.js';
 
 export default class CRUD {
-    #host = (import.meta.env.DEV ? 'https://10.200.182.42' : 'https://estaleiro.serpro.gov.br');
+    #host = (import.meta.env.DEV ? 'http://localhost:8080' : 'https://estaleiro.serpro.gov.br');
     //#host = 'https://comunica.hom.serpro/';
     #basePath = '/ComCom/diope/comcom/api/';
 
