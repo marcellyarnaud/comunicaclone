@@ -3,6 +3,7 @@ export default class Definicoes extends CRUD {
 
     constructor() {
         super('definicoes');
+        // comentario
     }
 
     eventos()   {
