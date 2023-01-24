@@ -49,7 +49,10 @@ export const comunicacoesStore = defineStore("comunicacoesStore", {
       this.comunicacoes.length = 0;
       this.index = -1;
     },
-    async add(o) {
+    get(id) {
+      return this.comunicacoes.find( (element) => element.id = id );
+    },
+    async create(o) {
       await comunicacao.create(o).then((response) => {
         this.comunicacoes.push(o);
       }).catch((e) => {
