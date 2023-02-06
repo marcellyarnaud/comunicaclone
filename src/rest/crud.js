@@ -75,6 +75,8 @@ export default class CRUD {
             + this.#buildPathParams(pathParams)
             + this.#buildQueryParams(queryParams);
         console.log(url);
+        url = encodeURI(url);
+        console.log(url);
         return url;
     }
 
