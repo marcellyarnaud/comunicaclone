@@ -1,41 +1,53 @@
 <template>
     <div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="modalCadastroTitle">Comunicação</h4>
-            </div>
+        <b-modal id="my-modal" title="Comunicação" size="lg" ok-title="Salvar" cancel-title="Fechar"
+            no-close-on-backdrop>
             <b-form id="frmModalCadastro">
-                <div class="modal-body">
-                    <input id="acao" type="hidden" value="ESCRITA">
-                    <div class="separador-base">
-                        <div class="row">
-                            <div id="titulo" class="dynamic-field col-sm-8" data-input-type="text" aria-label="Título"
-                                aria-required="true" data-rows="64"></div>
-                            <div id="adicionarReacao" class="dynamic-field col-sm-4 pt-4" data-input-type="check"
-                                aria-label="Adicionar campos de reação"></div>
-                        </div>
-                        <div id="resumo" class="dynamic-field" data-input-type="memo" aria-label="Resumo"
-                            aria-required="true" data-max-length="512"></div>
-                        <div id="detalhe-group" class="form-group">
-                            <label for="detalhe"><em>*</em> Detalhes (HTML)</label>
-                            <div id="editorHTML"></div>
-                            <span>Caracteres restantes: <span id="detalhe_chars">5000</span></span>
-                            <div id="detalhe-message" class="label">
-                            </div>
-                        </div>
-                        <div id="tabelaCabecalho"></div>
-                        <div id="tabelaFactSet"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-                    <button id="btnSalvar" type="submit" class="btn btn-primary">Salvar</button>
-                </div>
+                <b-container fluid>
+                    <b-row class="m-lg-1 form-group">
+                        <b-col>
+                            <label for="titulo"><em>*</em> Título</label>
+                            <b-form-input id="titulo" v-model="titulo" placeholder="Qual o título da comunicação?"
+                                aria-label="Título" aria-required="true" max="64"></b-form-input>
+                        </b-col>
+                        <b-col class="col-sm-4 pt-4">
+                            <b-form-checkbox id="adicionarReacao" v-model="adicionarReacao" name="adicionarReacao"
+                                aria-label="Adicionar campos de reação">
+                                Adicionar campos de reação
+                            </b-form-checkbox>
+                        </b-col>
+                    </b-row>
+                    <b-row class="m-lg-1 form-group">
+                        <b-col>
+                            <label for="resumo"><em>*</em> Resumo</label>
+                            <b-form-textarea id="resumo" v-model="resumo" :state="resumo.length >= 30"
+                                :maxlength="maxLengthResumo" placeholder="Digite no mínimo 30 caracteres" rows="6"
+                                no-resize></b-form-textarea>
+                        </b-col>
+                    </b-row>
+                    <b-row class="m-lg-1 form-group">
+                        <b-col>
+                            <div>Caracteres restantes: {{ caracteresRestantesResumo }}</div>
+                        </b-col>
+                    </b-row>
+                    <b-row class="m-lg-1 form-group">
+                        <b-col>
+                            <label for="detalhes"><em>*</em> Detalhes (HTML)</label>
+                            <b-form-textarea id="detalhes" v-model="detalhes" :state="detalhes.length >= 100"
+                                :maxlength="maxLenghtDetalhe" placeholder="Digite no mínimo 100 caracteres" rows="16"
+                                no-resize></b-form-textarea>
+                        </b-col>
+                    </b-row>
+                    <b-row class="m-lg-1 form-group">
+                        <b-col>
+                            <div>Caracteres restantes: {{ caracteresRestantesDetalhe }}</div>
+                        </b-col>
+                    </b-row>
+                    <div id="tabelaCabecalho"></div>
+                    <div id="tabelaFactSet"></div>
+                </b-container>
             </b-form>
-        </div>
+        </b-modal>
     </div>
 </template>
 <script>
@@ -47,15 +59,15 @@ export default {
     name: "EditComunicao",
     mixins: [notificationMessages, storesCommon],
     props: {
-        selecionadaId: null
+        selecionadaId: null,
     },
     data() {
         return {
             id: null,
-            titulo: null,
-            resumo: null,
+            titulo: '',
+            resumo: '',
             adicionarReacao: false,
-            detalhes: null,
+            detalhes: '',
             cabecalho: [
                 {
                     titulo: null,
@@ -67,10 +79,18 @@ export default {
                     titulo: null,
                     conteudo: null
                 }
-            ]
+            ],
+            maxLengthResumo: 512,
+            maxLenghtDetalhe: 8192
         }
     },
     computed: {
+        caracteresRestantesResumo() {
+            return this.maxLengthResumo - this.resumo.length;
+        },
+        caracteresRestantesDetalhe() {
+            return this.maxLenghtDetalhe - this.detalhes.length;
+        },
         btnToggleCaption() {
             return this.visible ? "Recolher" : "Expandir";
         },
@@ -90,7 +110,7 @@ export default {
         }
     },
     mounted() {
-        this.carregaComunicacao()
+        //this.carregaComunicacao();
     },
     methods: {
         carregaComunicacao() {
@@ -107,11 +127,17 @@ export default {
         },
         onReset() {
             this.data = null;
-            
+
+        },
+        show() {
+            this.$bvModal.show('my-modal');
         }
     }
 }
 </script>
 <style>
-
+.modal-lg {
+    max-width: auto !important;
+    min-width: 90% !important;
+}
 </style>

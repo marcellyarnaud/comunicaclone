@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div class="bv-modal">
+            <EditComunicacao ref="modalEditComunicacao" />
+        </div>
         <div class="container-fluid">
             <b-card>
                 <b-row>
@@ -114,9 +117,13 @@
 <script>
 import { notificationMessages } from "../../mixins/notificationMessages";
 import { storesCommon } from "../../mixins/storesCommon";
+import EditComunicacao from "./EditComunicacao.vue";
 
 export default {
     name: "FrontPage",
+    components: {
+        EditComunicacao
+    },
     mixins: [notificationMessages, storesCommon],
     data() {
         return {
@@ -195,6 +202,7 @@ export default {
         },
         cadastrarNovaComunicacao() {
             console.log('Cadastrando nova comunicação!');
+            this.$refs.modalEditComunicacao.show();
         },
         onSubmit(event) {
             event.preventDefault();
