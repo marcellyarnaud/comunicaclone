@@ -1,8 +1,8 @@
 <template>
     <div>
         <div>
-            <b-button v-b-toggle.sidebar-no-header id="menu-button-lg" 
-                class="navbar-toggler d-md-down-none border-0" :disabled=!isLoggedIn>
+            <b-button v-b-toggle.sidebar-no-header id="menu-button-lg" class="navbar-toggler d-md-down-none border-0"
+                :disabled=!isLoggedIn>
                 <span class="navbar-toggler-icon"></span>
             </b-button>
             <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
@@ -93,7 +93,10 @@
                             <div class="d-flex align-items-center nav-link" dropdown-trigger="">
                                 <span class="user-info mr-2 d-md-inline-flex right">
                                     <span id="infUserName" class="user-name">{{ nome }}</span>
-                                    <span id="infUserJob" class="user-job">{{ perfil }}</span>
+                                    <span id="infUserJob" class="user-job">
+                                        {{ perfil }}
+                                        <span class="tooltiptext tooltip-bottom">{{ descricaoPerfil }}</span>
+                                    </span>
                                 </span>
                                 <img alt="Avatar" aria-hidden="true" class="img-avatar" src="../assets/images/user.png">
                             </div>
@@ -110,20 +113,24 @@
 </template>
 <script>
 import * as utils from '../utils/index';
+import { storesCommon } from '../mixins/storesCommon';
 
 export default {
     name: "AppHeader",
-    props:  {
+    mixins: [storesCommon],
+    props: {
         nome: String,
         perfil: String,
-        cpf: String,
-        isLoggedIn: Boolean
+        cpf: String
     },
     components: {
     },
-    computed:   {
-        cpfFormatado()  {
+    computed: {
+        cpfFormatado() {
             return utils.formataCPF(this.cpf);
+        },
+        descricaoPerfil() {
+            return this.definicoesStore.descricao(this.definicoesStore.perfis, this.perfil);
         }
     }
 }
@@ -196,5 +203,28 @@ export default {
 .subitem :hover {
     justify-content: left !important;
     font-weight: bolder;
+}
+
+.user-job .tooltiptext {
+    visibility: hidden;
+    width: 360px;
+    background-color: cornflowerblue;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding-inline: 10px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.user-job:hover .tooltiptext {
+    visibility: visible;
+}
+
+.user-job .tooltip-bottom {
+    left: auto;
+    right: 100px;
 }
 </style>

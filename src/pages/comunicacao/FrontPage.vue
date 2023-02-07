@@ -58,7 +58,7 @@
                             <b-col sm="3">
                                 <b-form-group label="Estado" label-for="acao">
                                     <b-form-select id="acao" class="orm-control" v-model="selectedEstado"
-                                        :options="options"></b-form-select>
+                                        :options="optionsEstado"></b-form-select>
                                 </b-form-group>
                             </b-col>
                         </b-row>
@@ -127,18 +127,6 @@ export default {
             dataFim: null,
             titulo: null,
             resumo: null,
-            options: [
-                { value: null, text: 'Please select an option' },
-                { value: 'a', text: 'This is First option' },
-                { value: 'b', text: 'Selected Option', disabled: true },
-                {
-                    label: 'Grouped options',
-                    options: [
-                        { value: { C: '3PO' }, text: 'Option with object value' },
-                        { value: { R: '2D2' }, text: 'Another option with object value' }
-                    ]
-                }
-            ],
             comunicacoesFields: [
                 {
                     key: 'titulo',
@@ -160,13 +148,15 @@ export default {
                     sortable: false,
                     variant: 'info'
                 },
-            ],
-
+            ]
         }
     },
     computed: {
         btnToggleCaption() {
             return this.visible ? "Recolher" : "Expandir";
+        },
+        optionsEstado() {
+            return this.definicoesStore.textValue(this.definicoesStore.eventos);
         },
         tableRows() {
             if (this.comunicacoesStore.index < 0) {
