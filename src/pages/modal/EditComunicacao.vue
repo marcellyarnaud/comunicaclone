@@ -33,7 +33,7 @@
                     <b-row class="m-lg-1 form-group">
                         <b-col>
                             <label for="detalhes"><em>*</em> Detalhes (HTML)</label>
-                            <b-form-textarea id="detalhes" v-model="detalhes" :state="detalhes.length >= 100"
+                            <b-form-textarea id="detalhes" v-model="detalhe" :state="detalhe.length >= 100"
                                 :maxlength="maxLenghtDetalhe" placeholder="Digite no mínimo 100 caracteres" rows="16"
                                 no-resize></b-form-textarea>
                         </b-col>
@@ -51,23 +51,20 @@
     </div>
 </template>
 <script>
-import { INFO, notificationMessages } from "../../mixins/notificationMessages";
+import { notificationMessages } from "../../mixins/notificationMessages";
 import { storesCommon } from "../../mixins/storesCommon";
 import * as errorUtils from "../../errors/ErrorsUtils";
 
 export default {
     name: "EditComunicao",
     mixins: [notificationMessages, storesCommon],
-    props: {
-        selecionadaId: null,
-    },
     data() {
         return {
             id: null,
             titulo: '',
             resumo: '',
             adicionarReacao: false,
-            detalhes: '',
+            detalhe: '',
             cabecalho: [
                 {
                     titulo: null,
@@ -89,47 +86,43 @@ export default {
             return this.maxLengthResumo - this.resumo.length;
         },
         caracteresRestantesDetalhe() {
-            return this.maxLenghtDetalhe - this.detalhes.length;
-        },
-        btnToggleCaption() {
-            return this.visible ? "Recolher" : "Expandir";
-        },
-        tableRows() {
-            if (this.comunicacoesStore.index < 0) {
-                return [];
-            }
-            let resultado = this.comunicacoesStore.listaComunicacoes.map(
-                (element) => {
-                    return {
-                        ...element,
-                        'acoes': ['ovo', 'carne']
-                    }
-                }
-            );
-            return resultado;
+            return this.maxLenghtDetalhe - this.detalhe.length;
         }
     },
-    mounted() {
-        //this.carregaComunicacao();
-    },
     methods: {
-        carregaComunicacao() {
-            let comunicacao = this.comunicacoesStore.get(this.id);
-            if (comunicacao == null) {
-                errorUtils.treatWarning('Falha ao buscar comunicação', 'Comunicação selecionada não existe na lista de comunicações.');
-            } else {
-                this.data = comunicacao;
-            }
-        },
         onSubmit(event) {
             event.preventDefault();
-            this.comunicacoesStore.update(this.data);
         },
         onReset() {
-            this.data = null;
-
         },
-        show() {
+        show(comunicacao) {
+            if (comunicacao != null) {
+                this.id = comunicacao.id;
+                this.titulo = comunicacao.titulo;
+                this.resumo = comunicacao.resumo;
+                this.adicionarReacao = comunicacao.adicionarReacao;
+                this.detalhe = comunicacao.detalhe;
+                this.cabecalho = comunicacao.cabecalho;
+                this.rodape = comunicacao.rodape;
+            } else {
+                this.id = null;
+                this.titulo = '';
+                this.resumo = '';
+                this.adicionarReacao = false;
+                this.detalhe = '';
+                this.cabecalho = [
+                    {
+                        titulo: null,
+                        conteudo: null
+                    }
+                ];
+                this.rodape = [
+                    {
+                        titulo: null,
+                        conteudo: null
+                    }
+                ];
+            }
             this.$bvModal.show('my-modal');
         }
     }
