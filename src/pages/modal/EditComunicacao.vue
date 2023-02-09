@@ -84,7 +84,7 @@ export default {
     },
     methods: {
         onSubmit(event) {
-            //event.preventDefault();
+            event.preventDefault();
             console.log(this.editStore.html);
             this.$nextTick(() => {
                 this.$bvModal.hide('editComunicacaoModal');
