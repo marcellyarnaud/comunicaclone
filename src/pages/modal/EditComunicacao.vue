@@ -1,7 +1,7 @@
 <template>
     <div>
-        <b-modal id="my-modal" title="Comunicação" size="lg" ok-title="Salvar" cancel-title="Fechar"
-            no-close-on-backdrop>
+        <b-modal id="editComunicacaoModal" title="Comunicação" size="lg" ok-title="Salvar" @ok="onSubmit"
+            cancel-title="Fechar" no-close-on-backdrop>
             <b-form id="frmModalCadastro">
                 <b-container fluid>
                     <b-row class="m-lg-1 form-group">
@@ -33,14 +33,7 @@
                     <b-row class="m-lg-1 form-group">
                         <b-col>
                             <label for="detalhes"><em>*</em> Detalhes (HTML)</label>
-                            <b-form-textarea id="detalhes" v-model="detalhe" :state="detalhe.length >= 100"
-                                :maxlength="maxLenghtDetalhe" placeholder="Digite no mínimo 100 caracteres" rows="16"
-                                no-resize></b-form-textarea>
-                        </b-col>
-                    </b-row>
-                    <b-row class="m-lg-1 form-group">
-                        <b-col>
-                            <div>Caracteres restantes: {{ caracteresRestantesDetalhe }}</div>
+                            <JoditHTML :html="detalhe" />
                         </b-col>
                     </b-row>
                     <div id="tabelaCabecalho"></div>
@@ -54,10 +47,14 @@
 import { notificationMessages } from "../../mixins/notificationMessages";
 import { storesCommon } from "../../mixins/storesCommon";
 import * as errorUtils from "../../errors/ErrorsUtils";
+import JoditHTML from "../../components/JoditHTML.vue";
 
 export default {
     name: "EditComunicao",
     mixins: [notificationMessages, storesCommon],
+    components: {
+        JoditHTML
+    },
     data() {
         return {
             id: null,
@@ -77,21 +74,22 @@ export default {
                     conteudo: null
                 }
             ],
-            maxLengthResumo: 512,
-            maxLenghtDetalhe: 8192
+            maxLengthResumo: 512
         }
     },
     computed: {
         caracteresRestantesResumo() {
             return this.maxLengthResumo - this.resumo.length;
-        },
-        caracteresRestantesDetalhe() {
-            return this.maxLenghtDetalhe - this.detalhe.length;
         }
     },
     methods: {
         onSubmit(event) {
-            event.preventDefault();
+            //event.preventDefault();
+            console.log(this.editStore.html);
+            this.$nextTick(() => {
+                this.$bvModal.hide('editComunicacaoModal');
+            }
+            );
         },
         onReset() {
         },
@@ -123,7 +121,7 @@ export default {
                     }
                 ];
             }
-            this.$bvModal.show('my-modal');
+            this.$bvModal.show('editComunicacaoModal');
         }
     }
 }
