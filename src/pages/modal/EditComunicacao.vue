@@ -36,55 +36,8 @@
                             <JoditHTML :html="detalhe" />
                         </b-col>
                     </b-row>
-                    <b-row class="m-lg-1 form-group">
-                        <b-col>
-                            <label for="tabelaCabecalho"><em>*</em> Cabeçalhos</label>
-                            <b-table ref="tabelaCabecalho" striped responsive hover sticky-header
-                                :items="factSetsRows(cabecalho, 'editarCabecalho()', 'excluirCabecalho()')"
-                                :fields="factSetsFields">
-                                <template #cell(acoes)="data">
-                                    <div v-for="item in data.value">
-                                        <b-button pill size="sm" variant="success"
-                                            @click="onClickAcao(item.id, item.acao)">
-                                            {{ item.text }}
-                                        </b-button>
-                                    </div>
-                                </template>
-                            </b-table>
-                        </b-col>
-                    </b-row>
-                    <b-row class="m-lg-1 form-group">
-                        <b-col>
-                            <b-button class="sd btn right icon btn-primary" type="button" @click="criarCabecalho()">
-                                <span class="fa fa-plus" aria-hidden="true"></span>
-                                Adicionar
-                            </b-button>
-                        </b-col>
-                    </b-row>
-                    <b-row class="m-lg-1 form-group">
-                        <b-col>
-                            <label for="tabelaRodape"><em>*</em> Rodapés</label>
-                            <b-table ref="tabelaRodape" striped responsive hover sticky-header
-                                :items="factSetsRows(rodape, 'editarRodape()', 'excluirRodape()')" :fields="factSetsFields">
-                                <template #cell(acoes)="data">
-                                    <div v-for="item in data.value">
-                                        <b-button pill size="sm" variant="success"
-                                            @click="onClickAcao(item.id, item.acao)">
-                                            {{ item.text }}
-                                        </b-button>
-                                    </div>
-                                </template>
-                            </b-table>
-                        </b-col>
-                    </b-row>
-                    <b-row class="m-lg-1 form-group">
-                        <b-col>
-                            <b-button class="sd btn right icon btn-primary" type="button" @click="criarRodape()">
-                                <span class="fa fa-plus" aria-hidden="true"></span>
-                                Adicionar
-                            </b-button>
-                        </b-col>
-                    </b-row>
+                    <FactSets o-que="Cabeçalhos" :fact-sets="cabecalho" />
+                    <FactSets o-que="Rodapés" :fact-sets="rodape" />
                 </b-container>
             </b-form>
         </b-modal>
@@ -95,12 +48,14 @@ import { notificationMessages } from "../../mixins/notificationMessages";
 import { storesCommon } from "../../mixins/storesCommon";
 import * as errorUtils from "../../errors/ErrorsUtils";
 import JoditHTML from "../../components/JoditHTML.vue";
+import FactSets from "../../components/FactSets.vue";
 
 export default {
-    name: "EditComunicao",
+    name: "EditComunicacao",
     mixins: [notificationMessages, storesCommon],
     components: {
-        JoditHTML
+        JoditHTML,
+        FactSets
     },
     data() {
         return {
@@ -122,26 +77,6 @@ export default {
                 }
             ],
             maxLengthResumo: 512,
-
-            // FactSets Fields
-            factSetsFields: [
-                {
-                    key: 'title',
-                    label: 'Título',
-                    sortable: true
-                },
-                {
-                    key: 'value',
-                    label: 'Conteúdo',
-                    sortable: true,
-                },
-                {
-                    key: 'acoes',
-                    label: 'Ações',
-                    sortable: false,
-                    variant: 'info'
-                },
-            ],
         }
     },
     computed: {
@@ -188,47 +123,6 @@ export default {
                 ];
             }
             this.$bvModal.show('editComunicacaoModal');
-        },
-        factSetsRows(factset, editar, excluir) {
-            if (factset.length < 1) {
-                return [];
-            }
-            let resultado = factset.map(
-                (element, index) => {
-                    return {
-                        ...element,
-                        'acoes': [
-                            {
-                                'acao': editar,
-                                'id': index,
-                                'text': 'Editar'
-                            },
-                            {
-                                'acao': excluir,
-                                'id': index,
-                                'text': 'Excluir'
-                            }
-                        ]
-                    }
-                }
-            );
-            return resultado;
-        },
-
-        // Eventos cabeçalhos e rodapés
-        async onClickAcao(id, acao) {
-            console.log('id: ' + id);
-            eval('this.' + acao);
-        },
-        criarCabecalho() {
-            console.log('Criando cabeçalho');
-        },
-        editarCabecalho() {
-            //this.$refs.modalEditComunicacao.show(this.comunicacaoSelecionada);
-            console.log('Editando cabeçalho');
-        },
-        excluirCabecalho() {
-            console.log('Excluindo cabeçalho');
         },
     }
 }
