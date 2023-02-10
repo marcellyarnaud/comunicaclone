@@ -3,8 +3,8 @@
         <b-row class="m-lg-1 form-group">
             <b-col>
                 <label for="tabelaFactSet"><em>*</em> {{ oQue }}</label>
-                <b-table ref="tabelaFactSet" striped responsive hover sticky-header
-                    :items="factSetsRows()" :fields="factSetsFields">
+                <b-table ref="tabelaFactSet" striped responsive hover sticky-header :items="factSetsRows()"
+                    :fields="factSetsFields">
                     <template #cell(acoes)="data">
                         <div v-for="item in data.value">
                             <b-button pill size="sm" variant="success" @click="onClickAcao(item.id, item.acao)">
@@ -23,18 +23,35 @@
                 </b-button>
             </b-col>
         </b-row>
+        <div class="bv-modal">
+            <KeyValue ref="editarKeyValue" label-key="Título" label-value="Conteúdo" label-ok="Modificar"
+                titulo="Cabeçalho" place-holder-key="Digite a descrição do título"
+                place-holder-value="Digite o conteúdo" />
+        </div>
+        <div class="bv-modal">
+            <KeyValue ref="adicionarKeyValue" label-key="Título" label-value="Conteúdo" label-ok="Incluir"
+                titulo="Rodapé" place-holder-key="Digite a descrição do título"
+                place-holder-value="Digite o conteúdo" />
+        </div>
     </div>
 </template>
 
 <script>
+import KeyValue from '../pages/modal/KeyValue.vue';
+
 export default {
     name: "FactSets",
+    components: {
+        KeyValue
+    },
     props: {
         oQue: String,
         factSets: Array
     },
     data() {
         return {
+            factSetSelected: [],
+
             // FactSets Fields
             factSetsFields: [
                 {
@@ -56,7 +73,7 @@ export default {
             ],
         }
     },
-    methods:    {
+    methods: {
         factSetsRows() {
             if (this.factSets.length < 1) {
                 return [];
@@ -86,14 +103,17 @@ export default {
         // Eventos factSet
         async onClickAcao(id, acao) {
             console.log('id: ' + id);
+            this.factSetSelected = this.factSets[id];
+            console.log('factSetSelecionado: ' + JSON.stringify(this.factSetSelected));
             eval('this.' + acao);
         },
         adicionarFactSet() {
             console.log('Adicionando factSet');
+            this.$refs.adicionarKeyValue.show(this.factSetSelected);
         },
         editarFactSet() {
-            //this.$refs.modalEditComunicacao.show(this.comunicacaoSelecionada);
             console.log('Editando factSet');
+            this.$refs.editarKeyValue.show(this.factSetSelected);
         },
         excluirFactSet() {
             console.log('Excluindo factSet');
