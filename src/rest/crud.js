@@ -74,7 +74,7 @@ export default class CRUD {
         let url = this.#host + this.#basePath + this.model
             + this.#buildPathParams(pathParams)
             + this.#buildQueryParams(queryParams);
-        console.log(url);
+        url = encodeURI(url);
         return url;
     }
 

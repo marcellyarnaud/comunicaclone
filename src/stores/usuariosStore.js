@@ -1,10 +1,10 @@
-import { HttpStatusCode } from 'axios';
 import { defineStore } from 'pinia';
 import Usuario from '../rest/usuario';
 import * as errorUtils from '../errors/ErrorsUtils';
 import { KEY_CPF, KEY_JWT } from '../utils/localStorage';
 import * as utils from '../utils/index';
 import * as AppRouter from '../router/index';
+import { definicoesStore } from './definicoesStore';
 
 const usuario = new Usuario();
 
@@ -29,6 +29,7 @@ export const usuariosStore = defineStore('usuariosStore', {
           email: '',
           teams: '',
           perfil: '',
+          perfilDescricao: '',
           uf: '',
           departamento: '',
           funcao: '',
@@ -118,7 +119,7 @@ export const usuariosStore = defineStore('usuariosStore', {
         console.debug('Perfil retornado: ' + response.data.perfil);
         this.perfil = response.data.perfil;
       }).catch((e) => {
-        console.debug('Falhou a busca do perfil: ' + JSON.stringify(e));
+        console.debug('Falhou a busca do perfil: ' + e);
       })
     },
     isThereSessionData(bSkipSSODataCheck) {
