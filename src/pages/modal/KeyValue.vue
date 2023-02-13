@@ -1,14 +1,14 @@
 <template>
     <div>
         <b-modal :id="modalId" :title="titulo" size="lg" :ok-title="labelOk" @ok="onSubmit"
-            :cancel-title="labelCancel" no-close-on-backdrop>
+            :cancel-title="labelCancel" no-close-on-backdrop no-close-on-esc>
             <b-form id="frmKeyValue">
                 <b-container fluid>
                     <b-row class="m-lg-1 form-group">
                         <b-col>
                             <label for="key"><em>*</em> {{ labelKey }}</label>
                             <b-form-input id="key" v-model="key" :placeholder="placeHolderKey" :aria-label="labelKey"
-                                aria-required="true" :max=keyMax></b-form-input>
+                                aria-required="true" :max=keyMax :state="isContentValid"></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="m-lg-1 form-group">
@@ -73,23 +73,18 @@ export default {
     methods: {
         onSubmit(event) {
             event.preventDefault();
-            console.log('Ok KeyValueModal');
             this.$nextTick(() => {
                 this.$bvModal.hide(this.modalId);
             });
-            this.$emit('modalClosed');
+            this.$emit('modalClosed', this.key, this.value);
         },
         onReset() {
-            this.$emit('modalClosed');
         },
         show(fs) {
             this.$bvModal.show(this.modalId);
             let values = Object.values(fs);
             this.key = (values[0] != null ? values[0] : '');
             this.value = (values[1] != null ? values[1] : '');
-            console.log('KeyValue.show()');
-            console.log(this.key);
-            console.log(this.value);
         },
     }
 }

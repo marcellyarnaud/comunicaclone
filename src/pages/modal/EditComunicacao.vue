@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal id="editComunicacaoModal" title="Comunicação" size="lg" ok-title="Salvar" @ok="onSubmit"
-            cancel-title="Fechar" no-close-on-backdrop>
+            cancel-title="Fechar" no-close-on-backdrop no-close-on-esc>
             <b-form id="frmModalCadastro">
                 <b-container fluid>
                     <b-row class="m-lg-1 form-group">
@@ -36,8 +36,8 @@
                             <JoditHTML :html="detalhe" />
                         </b-col>
                     </b-row>
-                    <FactSets ref="cabecalhos" o-que="Cabeçalhos" titulo="Cabeçalho" ref-prefix="cabecalho" :fact-sets="cabecalho" />
-                    <FactSets ref="rodapes" o-que="Rodapés" titulo="Rodapé" ref-prefix="rodape" :fact-sets="rodape" />
+                    <FactSets ref="cabecalhos" o-que="Cabeçalhos" titulo="Cabeçalho" modal-id="cabecalho" :fact-sets="cabecalho" />
+                    <FactSets ref="rodapes" o-que="Rodapés" titulo="Rodapé" modal-id="rodape" :fact-sets="rodape" />
                 </b-container>
             </b-form>
         </b-modal>
@@ -66,14 +66,14 @@ export default {
             detalhe: '',
             cabecalho: [
                 {
-                    titulo: null,
-                    conteudo: null
+                    title: null,
+                    value: null
                 }
             ],
             rodape: [
                 {
-                    titulo: null,
-                    conteudo: null
+                    title: null,
+                    value: null
                 }
             ],
             maxLengthResumo: 512,
