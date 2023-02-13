@@ -1,7 +1,6 @@
 <template>
   <div>
     <HomePage class="fundo" />
-    <router-view/>
   </div>
 </template>
 
@@ -12,9 +11,8 @@ import HomePage from './pages/HomePage.vue';
 export default {
   name: 'App',
   components: {
-    HomePage,
-    
-}
+    HomePage
+  }
 }
 </script>
 

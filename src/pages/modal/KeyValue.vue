@@ -8,7 +8,7 @@
                         <b-col>
                             <label for="key"><em>*</em> {{ labelKey }}</label>
                             <b-form-input id="key" v-model="key" :placeholder="placeHolderKey" :aria-label="labelKey"
-                                aria-required="true" :max=keyMax :state="isContentValid"></b-form-input>
+                                aria-required="true" :max=keyMax ></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="m-lg-1 form-group">
