@@ -1,20 +1,20 @@
 <template>
     <div>
-        <b-modal id="keyValueModal" :title="titulo" size="lg" ok-title="Salvar" @ok="onSubmit" :cancel-title="labelCancel"
-            no-close-on-backdrop>
+        <b-modal :id="modalId" :title="titulo" size="lg" :ok-title="labelOk" @ok="onSubmit"
+            :cancel-title="labelCancel" no-close-on-backdrop>
             <b-form id="frmKeyValue">
                 <b-container fluid>
                     <b-row class="m-lg-1 form-group">
                         <b-col>
                             <label for="key"><em>*</em> {{ labelKey }}</label>
-                            <b-form-input id="key" v-model="key" :placeholder="placeHolderKey"
-                                :aria-label="labelKey" aria-required="true" :max=keyMax></b-form-input>
+                            <b-form-input id="key" v-model="key" :placeholder="placeHolderKey" :aria-label="labelKey"
+                                aria-required="true" :max=keyMax></b-form-input>
                         </b-col>
                     </b-row>
                     <b-row class="m-lg-1 form-group">
                         <b-col>
-                            <label for="value"><em>*</em> {{ labelValue }}</label>
-                            <b-form-input id="value" v-model="value" :placeholder="placeHolderValue"
+                            <label for="valor"><em>*</em> {{ labelValue }}</label>
+                            <b-form-input id="valor" v-model="value" :placeholder="placeHolderValue"
                                 :aria-label="labelValue" aria-required="true" :max=valueMax></b-form-input>
                         </b-col>
                     </b-row>
@@ -27,8 +27,10 @@
 <script>
 export default {
     name: 'KeyValue',
+    emits: ['modalClosed'],
     props: {
         titulo: String,
+        modalId: String,
         labelOk: {
             type: String,
             default: 'Salvar'
@@ -37,7 +39,7 @@ export default {
             type: String,
             default: 'Fechar'
         },
-        labelKey:   {
+        labelKey: {
             type: String,
             default: 'Chave'
         },
@@ -45,7 +47,7 @@ export default {
             type: String,
             default: 'Valor'
         },
-        placeHolderKey:   {
+        placeHolderKey: {
             type: String,
             default: 'Digite um nome'
         },
@@ -62,7 +64,7 @@ export default {
             default: 64
         }
     },
-    data()  {
+    data() {
         return {
             key: '',
             value: ''
@@ -73,19 +75,21 @@ export default {
             event.preventDefault();
             console.log('Ok KeyValueModal');
             this.$nextTick(() => {
-                this.$bvModal.hide('keyValueModal');
+                this.$bvModal.hide(this.modalId);
             });
+            this.$emit('modalClosed');
         },
         onReset() {
+            this.$emit('modalClosed');
         },
         show(fs) {
+            this.$bvModal.show(this.modalId);
             let values = Object.values(fs);
             this.key = (values[0] != null ? values[0] : '');
             this.value = (values[1] != null ? values[1] : '');
+            console.log('KeyValue.show()');
             console.log(this.key);
             console.log(this.value);
-            this.$forceUpdate();
-            this.$bvModal.show('keyValueModal');
         },
     }
 }

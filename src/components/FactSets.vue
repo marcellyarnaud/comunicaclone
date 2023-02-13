@@ -7,7 +7,7 @@
                     :fields="factSetsFields">
                     <template #cell(acoes)="data">
                         <div v-for="item in data.value">
-                            <b-button pill size="sm" variant="success" @click="onClickAcao(item.id, item.acao)">
+                            <b-button pill size="sm" variant="success" @click="onClickAcao(item.id, item.acao, item.labelAcao)">
                                 {{ item.text }}
                             </b-button>
                         </div>
@@ -17,21 +17,16 @@
         </b-row>
         <b-row class="m-lg-1 form-group">
             <b-col>
-                <b-button class="sd btn right icon btn-primary" type="button" @click="adicionarFactSet()">
+                <b-button class="sd btn right icon btn-primary" type="button" @click="onClickAcao(null, 'adicionarFactSet()', 'Incluir')">
                     <span class="fa fa-plus" aria-hidden="true"></span>
                     Adicionar
                 </b-button>
             </b-col>
         </b-row>
         <div class="bv-modal">
-            <KeyValue ref="editarKeyValue" label-key="Título" label-value="Conteúdo" label-ok="Modificar"
-                titulo="Cabeçalho" place-holder-key="Digite a descrição do título"
-                place-holder-value="Digite o conteúdo" />
-        </div>
-        <div class="bv-modal">
-            <KeyValue ref="adicionarKeyValue" label-key="Título" label-value="Conteúdo" label-ok="Incluir"
-                titulo="Rodapé" place-holder-key="Digite a descrição do título"
-                place-holder-value="Digite o conteúdo" />
+            <KeyValue ref="keyValue" label-key="Título" label-value="Conteúdo" :label-ok="labelAcao"
+                :titulo="titulo" place-holder-key="Digite a descrição do título" :modal-id="refPrefix"
+                place-holder-value="Digite o conteúdo" @modalClosed="modalClosed" />
         </div>
     </div>
 </template>
@@ -46,11 +41,14 @@ export default {
     },
     props: {
         oQue: String,
+        titulo: String,
+        refPrefix: String,
         factSets: Array
     },
     data() {
         return {
             factSetSelected: [],
+            labelAcao: '',
 
             // FactSets Fields
             factSetsFields: [
@@ -86,12 +84,14 @@ export default {
                             {
                                 'acao': 'editarFactSet()',
                                 'id': index,
-                                'text': 'Editar'
+                                'text': 'Editar',
+                                'labelAcao': 'Modificar'
                             },
                             {
                                 'acao': 'excluirFactSet()',
                                 'id': index,
-                                'text': 'Excluir'
+                                'text': 'Excluir',
+                                'labelAcao': null
                             }
                         ]
                     }
@@ -101,23 +101,30 @@ export default {
         },
 
         // Eventos factSet
-        async onClickAcao(id, acao) {
+        onClickAcao(id, acao, labelAcao) {
             console.log('id: ' + id);
             this.factSetSelected = this.factSets[id];
+            this.labelAcao = labelAcao;
             console.log('factSetSelecionado: ' + JSON.stringify(this.factSetSelected));
+            console.log('this.' + acao);
             eval('this.' + acao);
         },
         adicionarFactSet() {
             console.log('Adicionando factSet');
-            this.$refs.adicionarKeyValue.show(this.factSetSelected);
+            this.factSetSelected = [];
+            this.labelAcao = 'Incluir';
+            this.$refs.keyValue.show(this.factSetSelected);
         },
         editarFactSet() {
             console.log('Editando factSet');
-            this.$refs.editarKeyValue.show(this.factSetSelected);
+            this.$refs.keyValue.show(this.factSetSelected);
         },
         excluirFactSet() {
             console.log('Excluindo factSet');
         },
+        modalClosed()   {
+            console.log('modalClosed was called');
+        }
     }
 }
 </script>

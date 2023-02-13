@@ -36,8 +36,8 @@
                             <JoditHTML :html="detalhe" />
                         </b-col>
                     </b-row>
-                    <FactSets o-que="Cabeçalhos" :fact-sets="cabecalho" />
-                    <FactSets o-que="Rodapés" :fact-sets="rodape" />
+                    <FactSets ref="cabecalhos" o-que="Cabeçalhos" titulo="Cabeçalho" ref-prefix="cabecalho" :fact-sets="cabecalho" />
+                    <FactSets ref="rodapes" o-que="Rodapés" titulo="Rodapé" ref-prefix="rodape" :fact-sets="rodape" />
                 </b-container>
             </b-form>
         </b-modal>
