@@ -1,9 +1,12 @@
-const path = require('path')
-const { createVuePlugin } = require('vite-plugin-vue2')
+import basicSsl from '@vitejs/plugin-basic-ssl'
 
-module.exports = {
+import path from 'path';
+import vue from '@vitejs/plugin-vue2'
+
+export default {
   plugins: [
-    createVuePlugin()
+    vue(),
+    basicSsl()
   ],
   resolve: {
     alias: {

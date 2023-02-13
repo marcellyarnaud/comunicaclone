@@ -1,6 +1,7 @@
 <template>
   <div>
     <HomePage class="fundo" />
+    <router-view/>
   </div>
 </template>
 
@@ -12,7 +13,8 @@ export default {
   name: 'App',
   components: {
     HomePage,
-  }
+    
+}
 }
 </script>
 

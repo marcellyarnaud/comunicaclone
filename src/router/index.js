@@ -31,6 +31,11 @@ export const router = new VueRouter({
       // which is lazy-loaded when the route is visited.
       //component: () => import("../views/AboutView.vue"),
     },
+    {
+      path: "/comunicacoes/analise",
+      name: "analideDeImpacto",
+      component: () => import("../pages/comunicacao/AnaliseImpacto.vue")
+    }
   ],
 });
 

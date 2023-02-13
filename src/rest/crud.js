@@ -1,9 +1,9 @@
-import axios from "axios";
-import { usuariosStore } from "../stores/usuariosStore.js";
-import { NotLoggedInError } from "../errors/NotLoggedInError.js";
+import axios from 'axios';
+import { usuariosStore } from '../stores/usuariosStore.js';
+import { NotLoggedInError } from '../errors/NotLoggedInError.js';
 
 export default class CRUD {
-    #host = (import.meta.env.DEV ? 'http://localhost:8080' : 'https://estaleiro.serpro.gov.br');
+    #host = (import.meta.env.DEV ? 'https://10.200.182.42' : 'https://estaleiro.serpro.gov.br');
     //#host = 'https://comunica.hom.serpro/';
     #basePath = '/ComCom/diope/comcom/api/';
 
@@ -13,30 +13,37 @@ export default class CRUD {
     }
 
     axiosInstance(bSkipSSODataCheck = false) {
-        if (usuariosStore().isThereSessionData(bSkipSSODataCheck) == false ) {
+        if (usuariosStore().isThereSessionData(bSkipSSODataCheck) == false) {
             throw new NotLoggedInError();
         }
 
         let instance = axios.create();
-        instance.defaults.headers.common["Content-Type"] = "application/json;charset=UTF-8";
-        //instance.defaults.headers.common["Token"] = usuariosStore().chave;
-        instance.defaults.headers.common["Comunica-Vue"] = "SSOSUPOP " + usuariosStore().ssoToken();
-        //instance.defaults.headers.common["Authorization"] = "Bearer " + usuariosStore().ssoToken();
-        instance.defaults.headers.common["cpf"] = usuariosStore().cpf;
+        instance.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
+        instance.defaults.headers.common['Token'] = 'Bearer ' + usuariosStore().token;
+        instance.defaults.headers.common['cpf'] = usuariosStore().cpf;
+        //instance.defaults.headers.common['Token'] = usuariosStore().token;
+        //instance.defaults.headers.common['Comunica-Vue'] = 'SSOSUPOP ' + usuariosStore().sessionToken();
+        //instance.defaults.headers.common['Authorization'] = 'Bearer ' + usuariosStore().sessionToken();
+        /*
+           sessionToken() {
+              return localStorage.getItem(KEY_JWT);
+            },
+        */
 
+        /*
         console.debug('CRUD CPF: ' + usuariosStore().cpf);
-        console.debug('CRUD Chave: ' + usuariosStore().chave);
-        console.debug('CRUD SSO Token: ' + usuariosStore().ssoToken());
+        console.debug('CRUD Token: ' + usuariosStore().token);
+        */
         return instance;
     }
 
     #buildPathParams(pathParams) {
-        if (pathParams == undefined || pathParams.length == 0)  {
-            return '';            
+        if (pathParams == undefined || pathParams.length == 0) {
+            return '';
         }
         let pp = '';
-        for(const p of pathParams)  {
-            pp +=  '/' + p;
+        for (const p of pathParams) {
+            pp += '/' + p;
         }
         return pp;
     }
@@ -71,34 +78,34 @@ export default class CRUD {
         return url;
     }
 
-    async create(o) {
+    create(o) {
         return this.axiosInstance().post(
             this.mountURL(),
             o
         );
     }
 
-    async retrieve(id) {
-        return await this.axiosInstance().get(
-            this.mountURL([id])
+    retrieve(id, queryParams = undefined) {
+        return this.axiosInstance().get(
+            this.mountURL([id], queryParams)
         );
     }
 
-    async update(o) {
-        return await this.axiosInstance().put(
+    update(o) {
+        return this.axiosInstance().put(
             this.mountURL(),
             o
         );
     }
 
-    async delete(id) {
-        return await this.axiosInstance().delete(
+    delete(id) {
+        return this.axiosInstance().delete(
             this.mountURL([id])
         );
     }
 
-    async list(pathParams, queryParams) {
-        return await this.axiosInstance().get(
+    list(pathParams, queryParams) {
+        return this.axiosInstance().get(
             this.mountURL(pathParams, queryParams)
         );
     }

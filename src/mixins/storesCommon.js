@@ -1,11 +1,13 @@
-import { usuariosStore } from "../stores/usuariosStore";
-import { comunicacoesStore } from "../stores/comunicacoesStore";
+import { usuariosStore } from '../stores/usuariosStore';
+import { comunicacoesStore } from '../stores/comunicacoesStore';
+import { definicoesStore } from '../stores/definicoesStore'
 
 export var storesCommon = {
     data() {
         return {
             usuariosStore: usuariosStore(),
-            comunicacoesStore: comunicacoesStore()
+            comunicacoesStore: comunicacoesStore(),
+            definicoesStore: definicoesStore()
         }
     },
     computed: {

@@ -109,7 +109,7 @@
     </div>
 </template>
 <script>
-import * as utils from '../utils/field-formatters';
+import * as utils from '../utils/index';
 
 export default {
     name: "AppHeader",

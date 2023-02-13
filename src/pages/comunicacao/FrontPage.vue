@@ -95,14 +95,24 @@
             </b-card>
             <b-card>
                 <b-card-body :hidden="comunicacoesStore.index < 0">
-                    <b-table striped responsive hover :items="tableRows" :fields="comunicacoesFields"></b-table>
+                    <b-table striped responsive hover :busy="isBusy" :items="tableRows" :fields="comunicacoesFields">
+                        <template #table-busy>
+                            <div class="text-center text-danger my-2">
+                                <b-spinner class="align-middle"></b-spinner>
+                                <strong>Carregando...</strong>
+                            </div>
+                        </template>
+                        <template #cell(acoes)="data">
+                            <span v-html="data.value"></span>
+                        </template>
+                    </b-table>
                 </b-card-body>
             </b-card>
         </b-form>
     </div>
 </template>
 <script>
-import { INFO, notificationMessages } from "../../mixins/notificationMessages";
+import { notificationMessages } from "../../mixins/notificationMessages";
 import { storesCommon } from "../../mixins/storesCommon";
 
 export default {
@@ -110,6 +120,7 @@ export default {
     mixins: [notificationMessages, storesCommon],
     data() {
         return {
+            isBusy: false,
             visible: true,
             selectedEstado: null,
             dataInicio: null,
@@ -165,20 +176,22 @@ export default {
                 (element) => {
                     return {
                         ...element,
-                        'acoes': ['ovo', 'carne']
+                        'acoes': '<a href="http://www.serpro.gov.br/">Análise Impacto</a>'
                     }
                 }
             );
             return resultado;
         }
     },
-    mounted()    {
-        this.carregaListaComunicacoes();        
+    mounted() {
+        this.definicoesStore.reloadAll();
+        this.carregaListaComunicacoes();
     },
     methods: {
         carregaListaComunicacoes() {
+            this.isBusy = true;
             this.comunicacoesStore.list(
-                'titulo:resumo',
+                'titulo:resumo:acao',
                 undefined,
                 {
                     'startDate': this.dataInicio,
@@ -186,6 +199,8 @@ export default {
                     'status': this.selectedEstado,
                     'titulo': this.titulo,
                     'resumo': this.resumo
+                }).then(() => {
+                    this.isBusy = false;
                 });
         },
         cadastrarNovaComunicacao() {
@@ -196,21 +211,20 @@ export default {
             this.carregaListaComunicacoes();
         },
         onReset() {
-            console.log('Limpando campos');
-            this.notify('Consulta desfeita', 'Os parâmetros da consulta foram limpos e o resultado ficou em branco. \
-            \
-            /n Para nova consulta, selecione os parâmetros e/ou clique no botão "Filtrar"', INFO);
             this.dataInicio = null;
             this.dataFim = null;
             this.titulo = '';
             this.resumo = '';
             this.selectedEstado = null;
 
-            this.comunicacoesStore.reset();
+            this.carregaListaComunicacoes();
         }
     }
 }
 </script>
 <style>
-
+/* Busy table styling */
+table.b-table[aria-busy='true'] {
+    opacity: 0.6;
+}
 </style>

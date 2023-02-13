@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import Comunicacao from "../rest/comunicacao";
 import * as errorUtils from '../errors/ErrorsUtils';
-import * as utils from '../utils/utils';
+import * as utils from '../utils/index';
 
 const comunicacao = new Comunicacao();
 
@@ -83,10 +83,8 @@ export const comunicacoesStore = defineStore("comunicacoesStore", {
       await comunicacao.list(pathParams, queryParams).then((response) => {
         this.comunicacoes = response.data;
         this.index = ( this.comunicacoes.length > 0 ) ? 0 : -1;
-        console.log('Headers: ' + JSON.stringify(response.headers));
-        console.log('Comunica-Vue: ' + response.headers['comunica-vue']);
       }).catch((e) => {
-        errorUtils.treatError(e, 'Falha ao listar registros');
+        errorUtils.treatError(e, 'Falha ao listar comunicações');
       });
     }
   }
