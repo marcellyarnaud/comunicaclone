@@ -19,7 +19,6 @@ export const router = new VueRouter({
       component: () => import("../pages/comunicacao/FrontPage.vue"),
     },
     {
-      // Edita comunicação
       path: "/comunicacoes/edit",
       name: "editComunicacao",
       component: () => import("../pages/comunicacao/EditComunicacao.vue"),
