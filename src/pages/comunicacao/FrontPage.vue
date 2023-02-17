@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div class="bv-modal">
+            <EditComunicacao ref="modalEditComunicacao" />
+        </div>
         <div class="container-fluid">
             <b-card>
                 <b-row>
@@ -9,7 +12,7 @@
                     <b-col sm="4" class="title-button">
                         <div class="text-right">
                             <b-button class="sd btn right icon btn-primary" id="btnNovaComunicacao" type="button"
-                                @click="cadastrarNovaComunicacao()">
+                                @click="criarNovaComunicacao()">
                                 <span class="fa fa-plus" aria-hidden="true"></span>
                                 Cadastrar Nova Comunicação
                             </b-button>
@@ -58,7 +61,7 @@
                             <b-col sm="3">
                                 <b-form-group label="Estado" label-for="acao">
                                     <b-form-select id="acao" class="orm-control" v-model="selectedEstado"
-                                        :options="options"></b-form-select>
+                                        :options="optionsEstado"></b-form-select>
                                 </b-form-group>
                             </b-col>
                         </b-row>
@@ -95,7 +98,8 @@
             </b-card>
             <b-card>
                 <b-card-body :hidden="comunicacoesStore.index < 0">
-                    <b-table striped responsive hover :busy="isBusy" :items="tableRows" :fields="comunicacoesFields">
+                    <b-table striped responsive hover sticky-header :busy="isBusy" :items="tableRows"
+                        :fields="comunicacoesFields">
                         <template #table-busy>
                             <div class="text-center text-danger my-2">
                                 <b-spinner class="align-middle"></b-spinner>
@@ -103,7 +107,11 @@
                             </div>
                         </template>
                         <template #cell(acoes)="data">
-                            <span v-html="data.value"></span>
+                            <div v-for="item in data.value">
+                                <b-button pill size="sm" variant="success" @click="onClickAcao(item.id, item.acao)">
+                                    {{ item.text }}
+                                </b-button>
+                            </div>
                         </template>
                     </b-table>
                 </b-card-body>
@@ -114,9 +122,13 @@
 <script>
 import { notificationMessages } from "../../mixins/notificationMessages";
 import { storesCommon } from "../../mixins/storesCommon";
+import EditComunicacao from "../modal/EditComunicacao.vue";
 
 export default {
     name: "FrontPage",
+    components: {
+        EditComunicacao
+    },
     mixins: [notificationMessages, storesCommon],
     data() {
         return {
@@ -127,18 +139,6 @@ export default {
             dataFim: null,
             titulo: null,
             resumo: null,
-            options: [
-                { value: null, text: 'Please select an option' },
-                { value: 'a', text: 'This is First option' },
-                { value: 'b', text: 'Selected Option', disabled: true },
-                {
-                    label: 'Grouped options',
-                    options: [
-                        { value: { C: '3PO' }, text: 'Option with object value' },
-                        { value: { R: '2D2' }, text: 'Another option with object value' }
-                    ]
-                }
-            ],
             comunicacoesFields: [
                 {
                     key: 'titulo',
@@ -161,12 +161,16 @@ export default {
                     variant: 'info'
                 },
             ],
-
+            comunicacaoId: null,
+            comunicacaoSelecionada: null
         }
     },
     computed: {
         btnToggleCaption() {
             return this.visible ? "Recolher" : "Expandir";
+        },
+        optionsEstado() {
+            return this.definicoesStore.textValue(this.definicoesStore.eventos);
         },
         tableRows() {
             if (this.comunicacoesStore.index < 0) {
@@ -176,7 +180,18 @@ export default {
                 (element) => {
                     return {
                         ...element,
-                        'acoes': '<a href="http://www.serpro.gov.br/">Análise Impacto</a>'
+                        'acoes': [
+                            {
+                                'acao': 'editarComunicacao()',
+                                'id': element.id,
+                                'text': 'Editar'
+                            },
+                            {
+                                'acao': 'reacaoComunicacao()',
+                                'id': element.id,
+                                'text': 'Reação'
+                            }
+                        ]
                     }
                 }
             );
@@ -203,9 +218,6 @@ export default {
                     this.isBusy = false;
                 });
         },
-        cadastrarNovaComunicacao() {
-            console.log('Cadastrando nova comunicação!');
-        },
         onSubmit(event) {
             event.preventDefault();
             this.carregaListaComunicacoes();
@@ -218,7 +230,34 @@ export default {
             this.selectedEstado = null;
 
             this.carregaListaComunicacoes();
-        }
+        },
+        async loadSelected(id) {
+            if (id != this.comunicacaoId) {
+                this.comunicacaoId = id;
+                await this.comunicacoesStore.getAllFields(id).then(() => {
+                    this.comunicacaoSelecionada = this.comunicacoesStore.comunicacaoAllFields;
+                });
+            }
+        },
+
+        // Eventos comunicações
+        async onClickAcao(id, acao) {
+            await this.loadSelected(id).then(() => {
+                eval('this.' + acao);
+            });
+        },
+        criarNovaComunicacao() {
+            this.comunicacaoId = null;
+            this.comunicacaoSelecionada = null;
+            this.editarComunicacao();
+        },
+        editarComunicacao() {
+            this.$refs.modalEditComunicacao.show(this.comunicacaoSelecionada);
+        },
+        reacaoComunicacao(id) {
+            //this.$refs.modalReacaoComunicacao.show(this.comunicacaoSelecionada);
+        },
+
     }
 }
 </script>

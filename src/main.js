@@ -27,6 +27,20 @@ import Vuelogger from 'vuejs-logger'
 import { BVToastPlugin } from 'bootstrap-vue';
 import { usuariosStore } from './stores/usuariosStore';
 
+import { ValidationProvider, extend } from 'vee-validate';
+import { required } from 'vee-validate/dist/rules';
+
+extend('required', {
+  ...required,
+  message: 'Campo obrigatório'
+});
+extend('minLength', {
+  validate(value, args) {
+    return value.length >= args.length;
+  },
+  params: ['length']
+});
+
 Vue.use(BVToastPlugin);
 
 // Make BootstrapVue available throughout your project
@@ -68,6 +82,9 @@ let authenticated = await keycloak.init(initOptions);
 export const vm = new Vue({
   router: router,
   pinia,
+  components: {
+    ValidationProvider
+  },
   render: h => h(App, { props: { keycloak: keycloak } }),
 }).$mount('#app');
 

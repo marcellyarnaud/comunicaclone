@@ -14,7 +14,7 @@ export const definicoesStore = defineStore('definicoesStore', {
       }],
       eventos: {},
       perfis: {},
-      destinosPublicacao:{},
+      destinosPublicacao: {},
       formatosPublicacao: [{
         key: '',
         value: ''
@@ -24,9 +24,25 @@ export const definicoesStore = defineStore('definicoesStore', {
   getters: {
     eventosKeys: (state) => Object.keys(state.eventos),
     perfisKeys: (state) => Object.keys(state.perfis),
-    destinosPublicacaoKeys: (state) => Object.keys(state.destinosPublicacao)
-    },
+    destinosPublicacaoKeys: (state) => Object.keys(state.destinosPublicacao),
+  },
   actions: {
+    textValue(definicao) {
+      var opcoes = new Array();
+      opcoes.push({ value: null, text: 'Selecione uma opção!' });
+      for (const [key, value] of Object.entries(definicao)) {
+        opcoes.push({ value: `${key}`, text: `${value}` });
+      }
+      return opcoes;
+    },
+    descricao(definicao, valor) {
+      for (const [key, value] of Object.entries(definicao)) {
+        if( key == valor ) {
+          return value;
+        }
+      }
+      return undefined;
+    },
     reloadAll() {
       // Destinatários Outlook
       definicoes.outlookDestinatarios().then((response) => {

@@ -8,6 +8,33 @@ const comunicacao = new Comunicacao();
 export const comunicacoesStore = defineStore("comunicacoesStore", {
   state: () => {
     return {
+      comunicacaoAllFields: [
+        {
+          id: "",
+          acao: "",
+          adicionarReacao: false,
+          timeStamp: 0,
+          titulo: "",
+          resumo: "",
+          detalhe: "",
+          positivo: 0,
+          negativo: 0,
+          cabecalho: [
+            {
+              title: "",
+              value: ""
+            },
+          ],
+          rodape: [
+            {
+              title: "",
+              value: ""
+            },
+          ],
+          comunicacaoPaiId: null,
+          siteComunica: ""
+        }
+      ],
       comunicacoes: [
         {
           id: "",
@@ -49,7 +76,20 @@ export const comunicacoesStore = defineStore("comunicacoesStore", {
       this.comunicacoes.length = 0;
       this.index = -1;
     },
-    async add(o) {
+    get(id) {
+      return this.comunicacoes.find((element) => element.id = id);
+    },
+    async getAllFields(id) {
+      if (id == null) {
+        return null;
+      }
+      await comunicacao.retrieve(id).then((response) => {
+        this.comunicacaoAllFields = response.data;
+      }).catch((e) => {
+        errorUtils.treatError(e, 'Falha ao recuperar todos os campos do registro');
+      });
+    },
+    async create(o) {
       await comunicacao.create(o).then((response) => {
         this.comunicacoes.push(o);
       }).catch((e) => {
@@ -77,12 +117,12 @@ export const comunicacoesStore = defineStore("comunicacoesStore", {
         });
       }
     },
-    async list(colunas,pathParams,qp) {
-      let queryParams = utils.createdParamsArray(colunas,qp);
+    async list(colunas, pathParams, qp) {
+      let queryParams = utils.createdParamsArray(colunas, qp);
 
       await comunicacao.list(pathParams, queryParams).then((response) => {
         this.comunicacoes = response.data;
-        this.index = ( this.comunicacoes.length > 0 ) ? 0 : -1;
+        this.index = (this.comunicacoes.length > 0) ? 0 : -1;
       }).catch((e) => {
         errorUtils.treatError(e, 'Falha ao listar comunicações');
       });
